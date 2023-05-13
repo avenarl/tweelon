@@ -5,8 +5,8 @@
  * Created on: 05-14-23																																*
  *																																										*
  * Description: A FollowerRepository interface for handling data access and database 	*
- * 				 		 operations related to Follower entity. Extends JpaRepository to 				*
- * 				 		 leverage Spring Data JPA's built-in methods.														*
+ * 				 		  operations related to Follower entity. Extends JpaRepository to 			*
+ * 				 		  leverage Spring Data JPA's built-in methods.													*
  * 																																										*
  **************************************************************************************/
 

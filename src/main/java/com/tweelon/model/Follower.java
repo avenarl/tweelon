@@ -5,9 +5,9 @@
  * Created on: 05-14-23                                                               *
  *                                                                                    *
  * Description: A Follower entity representing a user's followers in the              *
- * 						 Tweelon Application. This model holds information about                *
- * 						 a user and the user they follow, and the timestamp for                 *
- * 						 when the user started following another user.                          *
+ * 						  Tweelon Application. This model holds information about               *
+ * 						  a user and the user they follow, and the timestamp for                *
+ * 						  when the user started following another user.                         *
  * 							 																																		  *
  * Feature:                                                                           *
  * 		- Follow another user.																													*
