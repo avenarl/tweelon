@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/follower")
 public class FollowerController {
 
 	@Autowired
@@ -45,13 +45,13 @@ public class FollowerController {
 	}
 
 	// Fetch all followers
-	@GetMapping
+	@GetMapping("/followers")
 	public List<Follower> getAllFollowers(){
 		return followerService.getAllFollowers();
 	}
 
 	// Fetch all followers by user id
-	@GetMapping("/user/{userId}")
+	@GetMapping("/followers/{userId}")
 	public List<Follower> getFollowersByUserId(@PathVariable Long userId){
 		return followerService.getFollowersByUserId(userId);
 	}
