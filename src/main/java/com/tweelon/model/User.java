@@ -2,12 +2,12 @@
  * User.java 																																				 *
  *																																									 *
  * Author: avenarl																																	 *
- * Created on: 05-12-23																															 *
+ * Created on: 05-14-23																															 *
  *																																									 *
  * Description: A User entity representing a user in the Tweelon Application.        *
- * 						 This model holds information about a user's account, including        *
- * 						 their username, email, password, display name, bio, profile image,    *
- * 						 and timestamps for creation and updates.                              *
+ * 						  This model holds information about a user's account, including       *
+ * 						  their username, email, password, display name, bio, profile image,   *
+ * 						  and timestamps for creation and updates.                             *
  *                                                                                   *
  * Feature:                                                                          *
  * 		- Register a new user.                                                         *
@@ -63,5 +63,84 @@ public class User {
 
 	@Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMPJKI")
 	private LocalDateTime updatedAt;
+
+
+	/*******************************
+	 *														 *	
+	 * 	Getter and Setter Methods	 *
+	 * 														 *
+	 *******************************/
 	
+	// ID
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id){
+		this.id = id;
+	}
+
+	// Username
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	// Email
+	public String getEmail(){
+		return email;
+	}
+	
+	public void setEmail(String email){
+		this.email = email;
+	}
+
+	// Password
+	public String getPassword(){
+		return password;
+	}
+
+	public void setPassword(String password){
+		this.password = password;
+	}
+
+	// Display Name
+	public String getDisplayName(){
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName){
+		this.displayName = displayName;
+	}
+
+	// Bio
+	public String getBio(){
+		return bio;
+	}
+
+	public void setBio(String bio){
+		this.bio = bio;
+	}
+
+	// Created At
+	public LocalDateTime getCreatedAt(){
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt){
+		this.createdAt = createdAt;
+	}
+
+	// Updated At
+	public LocalDateTime getUpdatedAt(){
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt){
+		this.updatedAt = updatedAt;
+	} 
+
 }
