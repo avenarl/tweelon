@@ -13,13 +13,13 @@
 package com.tweelon.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.tweelon.model.Follower;
 
-import graphql.com.google.common.base.Optional;
 
 @Repository
 public interface FollowerRepository extends JpaRepository<Follower, Long>{ // id = Long
