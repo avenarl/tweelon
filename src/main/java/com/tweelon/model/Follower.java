@@ -2,7 +2,7 @@
  * Follower.java 																																			*
  *             																																				*
  * Author: avenarl                                                                    *
- * Created on: 05-04-23                                                               *
+ * Created on: 05-14-23                                                               *
  *                                                                                    *
  * Description: A Follower entity representing a user's followers in the              *
  * 						 Tweelon Application. This model holds information about                *
