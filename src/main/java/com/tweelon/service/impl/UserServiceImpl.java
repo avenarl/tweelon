@@ -3,6 +3,7 @@ package com.tweelon.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tweelon.model.User;
@@ -16,14 +17,22 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository userRepository;
 
+	// Inject Password Encoder instance
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	@Override
   public User save(User user){
+		// Hash the password before saving the user
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		// Save user
     return userRepository.save(user);
   }
 
 	@Override
 	public User createUser(User user) {
+		// Hash the password before saving the user
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		// Save and return the new user
 		return userRepository.save(user);
 	}
@@ -36,6 +45,8 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User updateUser(User user){
+		// Hash the password before updating the user
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		// Save and return the updated user
 		return userRepository.save(user);
 	}
@@ -50,5 +61,11 @@ public class UserServiceImpl implements UserService{
 	public List<User> getAllUsers(){
 		// Return the list of all users
 		return userRepository.findAll();
+	}
+
+	// Validation
+	public boolean checkPassword(String rawPassword, String encodedPassword){
+		// Compare the raw password with the hashed password
+		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 }
