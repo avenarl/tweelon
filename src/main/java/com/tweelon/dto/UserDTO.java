@@ -1,5 +1,5 @@
 /**
- * TweetDTO.java
+ * UserDTO.java
  *
  * Author: avenarl
  * Created on: 05-17-23
