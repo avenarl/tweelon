@@ -61,12 +61,11 @@ public class User {
 	@Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdAt;
 
-	@Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMPJKI")
+	@Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime updatedAt;
 
 
-	/*******************************
-	 *														 *	
+	/******************************* 	
 	 * 	Getter and Setter Methods	 *
 	 * 														 *
 	 *******************************/

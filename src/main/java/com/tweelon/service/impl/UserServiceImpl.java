@@ -21,6 +21,17 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	// Constructor for testing
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+  public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+  }
+
 	@Override
   public User save(User user){
 		// Hash the password before saving the user
