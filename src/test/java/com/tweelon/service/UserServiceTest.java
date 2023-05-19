@@ -1,6 +1,8 @@
 package com.tweelon.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +18,7 @@ import com.tweelon.repository.UserRepository;
 import com.tweelon.service.impl.UserServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -38,6 +41,41 @@ public class UserServiceTest {
   void initUseCase(){
     userServiceImpl = new UserServiceImpl(userRepository, passwordEncoder);
   }
+
+	// Save user
+	@Test
+	void testSaveUser(){
+		// Prepare sample data
+    User user = new User();
+    user.setUsername("testuser");
+    user.setEmail("testuser@gmail.com");
+    user.setPassword("testuser@123");
+    user.setDisplayName("Test User");
+    user.setBio("My name is Test User. I'm a tester.");
+
+    // set the mock repository and password encoder
+    given(passwordEncoder.encode(anyString())).willReturn("encryptedPassword");
+    given(userRepository.save(user)).willAnswer(invocation -> {
+        User argument = invocation.getArgument(0);
+        argument.setPassword("encryptedPassword");
+        return argument;
+    });
+
+    // call the service method
+    User savedUser = userServiceImpl.save(user);
+
+    // validate the result
+    assertEquals(savedUser.getUsername(), "testuser");
+    assertEquals(savedUser.getEmail(), "testuser@gmail.com");
+    assertEquals(savedUser.getPassword(), "encryptedPassword");
+    assertEquals(savedUser.getDisplayName(), "Test User");
+    assertEquals(savedUser.getBio(), "My name is Test User. I'm a tester.");
+
+    // verify the interactions with the mock repository
+    verify(passwordEncoder).encode("testuser@123");
+    verify(userRepository).save(user);
+	}
+
 
 	@Test
 	public void testGetUserById(){
@@ -131,5 +169,54 @@ public class UserServiceTest {
 		Long userId = 1L; // initialize sample data
 		userRepository.deleteById(userId); // call the service method
 		verify(userRepository).deleteById(userId); // validations
+	}
+
+	// Get all users
+	@Test
+	void testGetAllUsers(){
+		// prepare sample data
+		List<User> userList = new ArrayList<>();
+		User user1 = new User();
+		user1.setId(1L);
+		user1.setUsername("testuser1");
+		userList.add(user1);
+    User user2 = new User();
+    user2.setId(2L);
+    user2.setUsername("testuser2");
+    userList.add(user2);
+
+    // set the mock repository
+    given(userRepository.findAll()).willReturn(userList);
+
+    // call the service method
+    List<User> returnedUserList = userServiceImpl.getAllUsers();
+
+    // validate the result
+    assertEquals(returnedUserList.size(), 2);
+    assertEquals(returnedUserList.get(0).getUsername(), "testuser1");
+    assertEquals(returnedUserList.get(1).getUsername(), "testuser2");
+
+    // verify the interactions with the mock repository
+    verify(userRepository).findAll();
+	}
+
+	// Check Password
+	@Test
+	void testCheckPassword(){
+    // Prepare sample data
+    String rawPassword = "rawpassword";
+    String encodedPassword = "encodedpassword";
+
+    // set the mock password encoder
+    given(passwordEncoder.matches(rawPassword, encodedPassword)).willReturn(true);
+
+    // call the service method
+    boolean isMatch = userServiceImpl.checkPassword(rawPassword, encodedPassword);
+
+    // validate the result
+    assertTrue(isMatch);
+
+    // verify the interactions with the mock password encoder
+    verify(passwordEncoder).matches(rawPassword, encodedPassword);
 	}
 }
