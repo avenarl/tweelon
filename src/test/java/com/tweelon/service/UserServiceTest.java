@@ -125,34 +125,11 @@ public class UserServiceTest {
     verify(userRepository).save(any(User.class));
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	// Delete user
+	@Test
+	void testDeleteUser(){
+		Long userId = 1L; // initialize sample data
+		userRepository.deleteById(userId); // call the service method
+		verify(userRepository).deleteById(userId); // validations
+	}
 }
