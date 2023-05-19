@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -85,4 +86,73 @@ public class UserServiceTest {
     assertEquals(savedUser.getUpdatedAt(), updatedAt.plusDays(1));
 		verify(userRepository).save(user);
 	}
+
+	// Update a User
+	@Test
+	void testUpdateUser(){
+    // Given
+    User existingUser = new User();
+    existingUser.setId(1L);
+    existingUser.setUsername("testuser");
+    existingUser.setEmail("testuser@gmail.com");
+    existingUser.setPassword(passwordEncoder.encode("testuser@123"));
+    existingUser.setDisplayName("Test User");
+    existingUser.setBio("My name is Test User. I'm a tester.");
+
+    User updatedUser = new User();
+    updatedUser.setId(1L);
+    updatedUser.setUsername("updateduser");
+    updatedUser.setEmail("updateduser@gmail.com");
+    updatedUser.setPassword(passwordEncoder.encode("updatedpassword"));
+    updatedUser.setDisplayName("Updated User");
+    updatedUser.setBio("I'm an updated tester.");
+
+    given(userRepository.findById(1L)).willReturn(Optional.of(existingUser));
+    given(userRepository.save(any(User.class))).willAnswer(invocation -> invocation.getArgument(0));
+
+    // When
+    User savedUser = userServiceImpl.updateUser(1L, updatedUser);
+
+    // Then
+    assertEquals(savedUser.getUsername(), updatedUser.getUsername());
+    assertEquals(savedUser.getEmail(), updatedUser.getEmail());
+    assertEquals(savedUser.getPassword(), passwordEncoder.encode(updatedUser.getPassword()));
+    assertEquals(savedUser.getDisplayName(), updatedUser.getDisplayName());
+    assertEquals(savedUser.getBio(), updatedUser.getBio());
+
+    // Verify
+    verify(userRepository).findById(1L);
+    verify(userRepository).save(any(User.class));
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
