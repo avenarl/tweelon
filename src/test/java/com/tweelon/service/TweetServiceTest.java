@@ -45,7 +45,39 @@ public class TweetServiceTest {
 		Tweet returnedTweet = tweetServiceImpl.getTweetById(1L); // calls the method in service impl and store to a variable of tweet object
 		assertEquals(returnedTweet.getId(), 1L);	// validation
 	}
-	// Update Tweet	
+
+	// Update Tweet
+	@Test
+	void testUpdateTweet(){
+		// Create first a User
+		User user = new User();
+		user.setId(1L);
+		given(userService.getUserById(1L)).willReturn(user);
+
+    // Given
+    Tweet existingTweet = new Tweet();
+    existingTweet.setId(1L);
+    existingTweet.setContent("My first tweet as a tester.");
+		existingTweet.setUser(user);
+
+    Tweet updatedTweet = new Tweet();
+		updatedTweet.setId(1L);
+    updatedTweet.setContent("My edited tweet as a tester.");
+
+    given(tweetRepository.findById(1L)).willReturn(Optional.of(existingTweet));
+    given(tweetRepository.save(any(Tweet.class))).willAnswer(invocation -> invocation.getArgument(0));
+
+    // When
+    Tweet savedTweet = tweetServiceImpl.updateTweet(updatedTweet, 1L);
+
+    // Then
+    assertEquals(savedTweet.getId(), updatedTweet.getId());
+    assertEquals(savedTweet.getContent(), updatedTweet.getContent());
+
+    // Verify
+    verify(tweetRepository).findById(1L);
+    verify(tweetRepository).save(any(Tweet.class));
+	}
 	// Delete Tweet
 	// Get All Tweets
 	// Get Tweet by User ID
