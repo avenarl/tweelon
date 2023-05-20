@@ -35,6 +35,32 @@ public class TweetServiceTest {
 	private TweetServiceImpl tweetServiceImpl;
 
 	// Create Tweet
+	@Test
+	public void testCreateTweet(){
+		User user = new User();
+    user.setId(1L);
+ 
+    Tweet tweetToCreate = new Tweet();
+    tweetToCreate.setContent("Created tweet.");
+    tweetToCreate.setUser(user);
+
+    given(userService.getUserById(1L)).willReturn(user);
+    given(tweetRepository.save(any(Tweet.class))).willAnswer(invocation -> {
+        Tweet tweet = invocation.getArgument(0);
+        tweet.setId(1L);
+        return tweet;
+    });
+
+    Tweet savedTweet = tweetServiceImpl.createTweet(tweetToCreate, 1L);
+    assertNotNull(savedTweet);
+    assertEquals(1L, savedTweet.getId());
+    assertEquals("Created tweet.", savedTweet.getContent());
+    assertEquals(user, savedTweet.getUser());
+
+    // Verify
+    verify(tweetRepository).save(any(Tweet.class));
+	}
+
 	// Get Tweet by ID
 	@Test
 	public void testGetTweetById(){
