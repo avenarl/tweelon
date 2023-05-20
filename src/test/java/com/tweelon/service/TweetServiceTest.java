@@ -4,14 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.tweelon.model.Tweet;
 import com.tweelon.model.User;
