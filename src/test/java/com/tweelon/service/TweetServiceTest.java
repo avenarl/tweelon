@@ -1,7 +1,10 @@
 package com.tweelon.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -83,6 +86,55 @@ public class TweetServiceTest {
 		verify(tweetRepository).deleteById(tweetId);
 	}
 	// Get All Tweets
+	@Test
+	void testGetAllTweets(){
+		// prepare sample data
+		List<Tweet> tweetList = new ArrayList<>();
+		User user1 = new User();
+		user1.setId(1L);
+		Tweet tweet1 = new Tweet();
+		tweet1.setUser(user1);
+		tweet1.setContent("My tweet.");
+		tweetList.add(tweet1);
+
+		User user2 = new User();
+		user2.setId(2L);
+		Tweet tweet2 = new Tweet();
+		tweet2.setUser(user2);
+		tweet2.setContent("The other tweet.");
+		tweetList.add(tweet2);
+
+		given(tweetRepository.findAll()).willReturn(tweetList);
+
+		List<Tweet> returnedTweetList = tweetServiceImpl.getAllTweets();
+
+		assertEquals(returnedTweetList.size(), 2);
+		assertEquals(returnedTweetList.get(0).getContent(), "My tweet.");
+		assertEquals(returnedTweetList.get(1).getContent(), "The other tweet.");
+
+		verify(tweetRepository).findAll();
+	}
 	// Get Tweet by User ID
+	@Test	
+	void testGetTweetByUserId(){
+		List<Tweet> tweetList = new ArrayList<>(); 
+
+		User user1 = new User();
+		user1.setId(1L);
+
+		Tweet tweet1 = new Tweet();
+		tweet1.setUser(user1);
+		tweet1.setContent("This tweet.");
+		tweetList.add(tweet1);
+
+		given(tweetRepository.findByUserId(1L)).willReturn(tweetList);
+
+		List<Tweet> returnedTweet = tweetServiceImpl.getTweetByUserId(1L);
+		assertNotNull(returnedTweet);
+		assertEquals(1, returnedTweet.size());
+		assertEquals(tweet1, returnedTweet.get(0));
+
+		verify(tweetRepository).findByUserId(1L);
+	}
 }
 
