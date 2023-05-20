@@ -76,6 +76,12 @@ public class TweetServiceTest {
     verify(tweetRepository).save(any(Tweet.class));
 	}
 	// Delete Tweet
+	@Test
+	void testDeleteTweet(){
+		Long tweetId = 1L;
+		tweetRepository.deleteById(tweetId);
+		verify(tweetRepository).deleteById(tweetId);
+	}
 	// Get All Tweets
 	// Get Tweet by User ID
 }
