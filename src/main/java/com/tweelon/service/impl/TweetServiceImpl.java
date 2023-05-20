@@ -1,16 +1,16 @@
-/**************************************************************************************
- * TweetServiceImpl.java																															*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-14-23																																*
- *																																										*
- * Description: This class provides the implementation of the TweetService interface.	*
- *              It handles the business logic for managing tweets in the Tweelon 			*
- *              application. It provides methods for creating, retrieving, updating, 	*
- *              and deleting tweets, as well as retrieving tweets by user or other 		*
- *              criteria.																															*
- *																																										*
- **************************************************************************************/
+/*
+ * TweetServiceImpl.java																															
+ *																																										
+ * Author: avenarl																																		
+ * Created on: 05-14-23																																
+ *																																										
+ * Description: This class provides the implementation of the TweetService interface.	
+ *              It handles the business logic for managing tweets in the Tweelon 			
+ *              application. It provides methods for creating, retrieving, updating, 	
+ *              and deleting tweets, as well as retrieving tweets by user or other 		
+ *              criteria.																															
+ *																																										
+ */
 
 package com.tweelon.service.impl;
 
