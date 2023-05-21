@@ -143,22 +143,34 @@ public class RetweetServiceTest {
 
     verify(retweetRepository).findByUserId(userId);
 	}
+
 	// Get retweets by tweet id
+	@Test
+	void testGetRetweetsByTweetId(){
+	  // Given
+    Long tweetId = 1L;
+    Tweet tweet = new Tweet();
+    tweet.setId(tweetId);
 
+    Retweet retweet1 = new Retweet();
+    retweet1.setId(1L);
+    retweet1.setTweetId(tweet);
+    Retweet retweet2 = new Retweet();
+    retweet2.setId(2L);
+    retweet2.setTweetId(tweet);
 
+    List<Retweet> retweetList = Arrays.asList(retweet1, retweet2);
 
+    given(retweetRepository.findByTweetId(tweetId)).willReturn(retweetList);
 
+    // When
+    List<Retweet> returnedRetweets = retweetServiceImpl.getRetweetsByTweetId(tweetId);
 
+    // Then
+    assertEquals(2, returnedRetweets.size());
+    assertEquals(tweetId, returnedRetweets.get(0).getTweetId().getId());
+    assertEquals(tweetId, returnedRetweets.get(1).getTweetId().getId());
 
-
-
-
-
-
-
-
-
-
-
-
+    verify(retweetRepository).findByTweetId(tweetId);
+	}
 }
