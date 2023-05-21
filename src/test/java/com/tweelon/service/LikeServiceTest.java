@@ -14,7 +14,7 @@ import com.tweelon.service.impl.LikeServiceImpl;
 
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -90,7 +90,29 @@ public class LikeServiceTest {
 
 		verify(likeRepository).findAll();
 	}
+
 	//	Get likes by user id
+	@Test
+	void testGetLikesByUserId(){
+		List<Like> likeList = new ArrayList<>();
+
+		Long userId = 1L;
+		User user1 = new User();
+		user1.setId(userId);
+
+		Like like1 = new Like();
+		like1.setUserId(user1);
+		likeList.add(like1);
+		
+		given(likeRepository.findLikesByUserId(1L)).willReturn(likeList);
+
+		List<Like> returnedLike = likeServiceImpl.getLikesByUserId(1L);
+		assertNotNull(returnedLike);
+		assertEquals(1, returnedLike.size());
+		assertEquals(like1, returnedLike.get(0));
+		
+		verify(likeRepository).findLikesByUserId(1L);
+	}
 	
 
 
