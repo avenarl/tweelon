@@ -1,5 +1,7 @@
 package com.tweelon.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +22,7 @@ import com.tweelon.repository.RetweetRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -85,6 +88,31 @@ public class RetweetServiceTest {
 		verify(tweetRepository).deleteById(tweetId);
 	}
 	// Get all retweets
+	@Test
+	void testGetAllRetweets(){
+		    // Given
+    List<Retweet> retweetList = new ArrayList<>();
+
+    Retweet retweet1 = new Retweet();
+    retweet1.setId(1L);
+    retweetList.add(retweet1);
+
+    Retweet retweet2 = new Retweet();
+    retweet2.setId(2L);
+    retweetList.add(retweet2);
+
+    given(retweetRepository.findAll()).willReturn(retweetList);
+
+    // When
+    List<Retweet> returnedRetweets = retweetServiceImpl.getAllRetweets();
+
+    // Then
+    assertEquals(returnedRetweets.size(), 2);
+    assertEquals(returnedRetweets.get(0).getId(), retweet1.getId());
+    assertEquals(returnedRetweets.get(1).getId(), retweet2.getId());
+
+    verify(retweetRepository).findAll();
+	}
 	// Get retweets by user id
 	// Get retweets by tweet id
 
