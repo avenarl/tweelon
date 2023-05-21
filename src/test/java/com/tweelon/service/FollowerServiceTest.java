@@ -112,4 +112,18 @@ public class FollowerServiceTest {
 	}
 
 	// Get followers by user id
+	@Test
+	public void testGetFollowersByUserId() {
+    Long userId = 1L;
+    List<Follower> followers = new ArrayList<>();
+    followers.add(new Follower());
+    followers.add(new Follower());
+
+    given(followerRepository.findByUserId(userId)).willReturn(followers);
+
+    List<Follower> result = followerServiceImpl.getFollowersByUserId(userId);
+
+    assertEquals(2, result.size());
+    verify(followerRepository).findByUserId(userId);
+	}
 }
