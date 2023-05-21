@@ -1,21 +1,21 @@
-/**************************************************************************************
- * Like.java 																																					*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-14-23																															  *
- *																																										*
- * Description: A Like entity representing a user's liked tweets in the               *
- * 						  Tweelon Application. This model holds information about               *
- * 						  a user and the tweet they liked, and the timestamp for                *
- * 						  when the user liked the tweet.                                        *
- * 							       																																*
- * Feature: 																																					*
- * 		- Like a tweet.																																  *
- * 		- Unlike a tweet.																															  *
- * 		- Retrieve a list of tweets liked by a user.																		*
- * 		- Retrieve a count of likes for a tweet.																				*
- *																																										*
- **************************************************************************************/
+/*
+ * Like.java
+ *
+ * Author: avenarl
+ * Created on: 05-14-23
+ *
+ * Description: A Like entity representing a user's liked tweets in the
+ * 						  Tweelon Application. This model holds information about
+ * 						  a user and the tweet they liked, and the timestamp for
+ * 						  when the user liked the tweet.
+ *
+ * Feature:
+ * 		- Like a tweet.
+ * 		- Unlike a tweet.
+ * 		- Retrieve a list of tweets liked by a user.
+ * 		- Retrieve a count of likes for a tweet.
+ *
+ **/
 
 package com.tweelon.model;
 
@@ -34,11 +34,9 @@ import jakarta.persistence.Table;
 @Table(name = "likes")
 public class Like {
 
-	/***********************
-	 *										 *
-	 *   Column Mappings   *
-	 *										 *		
-	 ***********************/
+	/*
+	 *Column Mappings
+	 **/
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,11 +56,9 @@ public class Like {
       columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private LocalDateTime createdAt;
 
-	/********************************
-	 *															*	
-	 * 	Getter and Setter Methods	  *
-	 * 														  *
-	 ********************************/
+	/*
+	 *Getter and Setter Methods
+	 **/
 	
 	// ID
 	public Long getId(){

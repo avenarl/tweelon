@@ -1,15 +1,15 @@
-/**************************************************************************************
- * LikeServiceImpl.java																																*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-14-23																																*
- *																																										*
- * Description: This class provides the implementation of the LikeService interface.	*
- *              It handles the business logic for managing likes in the Tweelon 			*
- *              application. It provides methods for creating, retrieving, updating, 	*
- *              and deleting likes, as well as retrieving likes by user or tweet.			*
- *																																										*
- **************************************************************************************/
+/*
+ * LikeServiceImpl.java
+ *
+ * Author: avenarl
+ * Created on: 05-14-23
+ *
+ * Description: This class provides the implementation of the LikeService interface.
+ *              It handles the business logic for managing likes in the Tweelon
+ *              application. It provides methods for creating, retrieving, updating,
+ *              and deleting likes, as well as retrieving likes by user or tweet.
+ *
+ **/
 
 package com.tweelon.service.impl;
 
@@ -33,7 +33,7 @@ public class LikeServiceImpl implements LikeService {
 	public UserRepository userRepository;
 
 	@Override
-	public Like getLikeById(Like likeId, Long userId){
+	public Like getLikeById(Long likeId, Long userId){
 		// Get all likes by its ID & user ID and return
 		return likeRepository.findLikeByIdAndUserId(likeId, userId).orElseThrow(() -> new RuntimeException("Like not found."));
 	}
