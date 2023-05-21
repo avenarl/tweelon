@@ -1,6 +1,7 @@
 package com.tweelon.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,6 +115,34 @@ public class RetweetServiceTest {
     verify(retweetRepository).findAll();
 	}
 	// Get retweets by user id
+	@Test
+	void testGetRetweetsByUserId(){
+	  // Given
+    Long userId = 1L;
+    User user = new User();
+    user.setId(userId);
+
+    Retweet retweet1 = new Retweet();
+    retweet1.setId(1L);
+    retweet1.setUserId(user);
+    Retweet retweet2 = new Retweet();
+    retweet2.setId(2L);
+    retweet2.setUserId(user);
+
+    List<Retweet> retweetList = Arrays.asList(retweet1, retweet2);
+
+    given(retweetRepository.findByUserId(userId)).willReturn(retweetList);
+
+    // When
+    List<Retweet> returnedRetweets = retweetServiceImpl.getRetweetsByUserId(userId);
+
+    // Then
+    assertEquals(2, returnedRetweets.size());
+    assertEquals(userId, returnedRetweets.get(0).getUserId().getId());
+    assertEquals(userId, returnedRetweets.get(1).getUserId().getId());
+
+    verify(retweetRepository).findByUserId(userId);
+	}
 	// Get retweets by tweet id
 
 
