@@ -16,6 +16,8 @@ import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.doNothing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,7 @@ public class LikeServiceTest {
     verify(likeRepository).findLikeByIdAndUserId(like.getId(), userId);
 	}
 	//	Remove like
+	
 	//	Get all likes
 	@Test 
 	void testGetAllLikes(){
@@ -113,21 +116,12 @@ public class LikeServiceTest {
 		
 		verify(likeRepository).findLikesByUserId(1L);
 	}
-	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Test
+	public void testUnLike() {
+		Long likeId = 1L;
+    doNothing().when(likeRepository).deleteById(likeId);
+    likeServiceImpl.unLike(likeId);
+    verify(likeRepository, times(1)).deleteById(likeId);
+	}
 }
