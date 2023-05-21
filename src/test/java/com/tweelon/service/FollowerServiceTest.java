@@ -35,10 +35,7 @@ public class FollowerServiceTest {
 
 	@InjectMocks
 	private FollowerServiceImpl followerServiceImpl;
-	
-	// Get followers by user id
-	// Get following by following id
-	
+		
 	// Follower user
 	@Test
 	public void testFollowUser() {
@@ -97,4 +94,22 @@ public class FollowerServiceTest {
     assertEquals(2, result.size());
     verify(followerRepository).findAll();
 	}
+
+	// Get following by following id
+	@Test
+	public void testGetFollowingByFollowingId() {
+    Long followingId = 1L;
+    List<Follower> followers = new ArrayList<>();
+    followers.add(new Follower());
+    followers.add(new Follower());
+
+    given(followerRepository.findByFollowingId(followingId)).willReturn(followers);
+
+    List<Follower> result = followerServiceImpl.getFollowingByFollowingId(followingId);
+
+    assertEquals(2, result.size());
+    verify(followerRepository).findByFollowingId(followingId);
+	}
+
+	// Get followers by user id
 }
