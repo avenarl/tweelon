@@ -15,6 +15,7 @@ import com.tweelon.repository.UserRepository;
 
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +34,6 @@ public class FollowerServiceTest {
 	@InjectMocks
 	private FollowerServiceImpl followerServiceImpl;
 
-	// Unfollow a user
 	// Get all followers
 	// Get followers by user id
 	// Get following by following id
@@ -64,5 +64,21 @@ public class FollowerServiceTest {
     verify(userRepository, times(1)).findById(userId);
     verify(userRepository, times(1)).findById(followingId);
     verify(followerRepository, times(1)).save(any(Follower.class));
+	}
+
+	// Unfollow a user
+	@Test
+	public void testUnfollowUserNotExistingFollower() {
+    Long userId = 1L;
+    Long followingId = 2L;
+    
+    given(followerRepository.findByUserIdAndFollowingId(userId, followingId)).willReturn(Optional.empty());
+
+    assertThrows(RuntimeException.class, () -> {
+        followerServiceImpl.unfollowUser(userId, followingId);
+    });
+
+    verify(followerRepository).findByUserIdAndFollowingId(userId, followingId);
+    verify(followerRepository, times(0)).delete(any(Follower.class));
 	}
 }
