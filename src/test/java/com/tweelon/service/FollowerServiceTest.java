@@ -20,6 +20,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,8 +35,7 @@ public class FollowerServiceTest {
 
 	@InjectMocks
 	private FollowerServiceImpl followerServiceImpl;
-
-	// Get all followers
+	
 	// Get followers by user id
 	// Get following by following id
 	
@@ -80,5 +81,20 @@ public class FollowerServiceTest {
 
     verify(followerRepository).findByUserIdAndFollowingId(userId, followingId);
     verify(followerRepository, times(0)).delete(any(Follower.class));
+	}
+
+	// Get all followers
+	@Test
+	public void testGetAllFollowers() {
+    List<Follower> followers = new ArrayList<>();
+    followers.add(new Follower());
+    followers.add(new Follower());
+
+    given(followerRepository.findAll()).willReturn(followers);
+
+    List<Follower> result = followerServiceImpl.getAllFollowers();
+
+    assertEquals(2, result.size());
+    verify(followerRepository).findAll();
 	}
 }
