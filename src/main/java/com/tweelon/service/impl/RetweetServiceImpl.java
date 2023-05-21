@@ -1,16 +1,16 @@
-/**************************************************************************************
- * RetweetServiceImpl.java																														*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-12-23																																*
- *																																										*
- * Description: This class provides the implementation of the RetweetService 					*
- *              interface. It handles the business logic for managing retweets in     *
- *              the Tweelon application. It provides methods for creating,            *
- *              retrieving, updating, and deleting retweets,as well as retrieving     *
- *              retweets by user or tweet.																					  *
- *																																										*
- **************************************************************************************/
+/*
+ * RetweetServiceImpl.java
+ *
+ * Author: avenarl
+ * Created on: 05-12-23
+ *
+ * Description: This class provides the implementation of the RetweetService
+ *              interface. It handles the business logic for managing retweets in
+ *              the Tweelon application. It provides methods for creating,
+ *              retrieving, updating, and deleting retweets,as well as retrieving
+ *              retweets by user or tweet.
+ *
+ **/
 
 package com.tweelon.service.impl;
 
