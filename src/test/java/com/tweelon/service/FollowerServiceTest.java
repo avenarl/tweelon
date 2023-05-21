@@ -1,0 +1,68 @@
+package com.tweelon.service;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.tweelon.repository.FollowerRepository;
+import com.tweelon.model.Follower;
+import com.tweelon.service.impl.FollowerServiceImpl;
+
+import com.tweelon.model.User;
+import com.tweelon.repository.UserRepository;
+
+import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.util.Optional;
+
+@ExtendWith(MockitoExtension.class)
+public class FollowerServiceTest {
+
+	@Mock
+	private FollowerRepository followerRepository;	
+
+	@Mock
+	private UserRepository userRepository;
+
+	@InjectMocks
+	private FollowerServiceImpl followerServiceImpl;
+
+	// Unfollow a user
+	// Get all followers
+	// Get followers by user id
+	// Get following by following id
+	
+	// Follower user
+	@Test
+	public void testFollowUser() {
+		Long userId = 1L;
+    Long followingId = 2L;
+    
+    User user = new User();
+    User followingUser = new User();
+    
+    Follower follower = new Follower();
+    follower.setUserId(user);
+    follower.setFollowingId(followingUser);
+
+    given(userRepository.findById(userId)).willReturn(Optional.of(user));
+    given(userRepository.findById(followingId)).willReturn(Optional.of(followingUser));
+    given(followerRepository.save(any(Follower.class))).willReturn(follower);
+
+    Follower savedFollower = followerServiceImpl.followUser(userId, followingId);
+
+    assertEquals(savedFollower, follower);
+    assertEquals(savedFollower.getUserId(), user);
+    assertEquals(savedFollower.getFollowingId(), followingUser);
+    
+    verify(userRepository, times(1)).findById(userId);
+    verify(userRepository, times(1)).findById(followingId);
+    verify(followerRepository, times(1)).save(any(Follower.class));
+	}
+}
