@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -77,4 +76,32 @@ public class RetweetServiceTest {
     verify(tweetRepository, times(1)).findById(tweetId);
     verify(retweetRepository, times(1)).save(any(Retweet.class));
 	}
+
+	// Delete retweet
+	@Test
+	void testDeleteRetweet() {
+		Long tweetId = 1L;
+		tweetRepository.deleteById(tweetId);
+		verify(tweetRepository).deleteById(tweetId);
+	}
+	// Get all retweets
+	// Get retweets by user id
+	// Get retweets by tweet id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
