@@ -1,14 +1,14 @@
-/**************************************************************************************
- * TweetController.java 																															*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-14-23																																*
- *																																										*
- * Description: A REST Controller for handling Tweet-related operations in the 				*
- * 						 Tweelon Application. This class maps endpoints for creating, 					*
- * 						 updating, deleting, and fetching tweets. 															*
- *																																										*
- **************************************************************************************/
+/*
+ * TweetController.java
+ *
+ * Author: avenarl
+ * Created on: 05-14-23
+ *
+ * Description: A REST Controller for handling Tweet-related operations in the
+ * 						  Tweelon Application. This class maps endpoints for creating,
+ * 						  updating, deleting, and fetching tweets.
+ *
+ **/
 
 package com.tweelon.controller;
 
@@ -53,13 +53,13 @@ public class TweetController {
 	}
 
 	// Fetch single tweet by id 
-	@GetMapping("/tweet/{tweetId}")
+	@GetMapping("/{tweetId}")
 	public Tweet getTweetById(@PathVariable Long tweetId){
 		return tweetService.getTweetById(tweetId);
 	}
 
 	// Fetch single tweet by user id
-	@GetMapping("/tweet/{userId}")
+	@GetMapping("/{userId}")
 	public  List<Tweet> getTweetByUserId(@PathVariable Long userId){
 		return tweetService.getTweetByUserId(userId);
 	}
