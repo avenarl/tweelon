@@ -14,9 +14,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tweelon.model.User;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,6 +37,38 @@ public class UserControllerTest {
 	private UserService userService;
 
 	// Get all users
+	@Test
+	public void testGetAllUsers() throws Exception {
+		User user1 = new User();
+		user1.setId(1L);
+    user1.setUsername("testuser1");
+    user1.setEmail("testuser1@gmail.com");
+    user1.setPassword("testuser@123");
+    user1.setDisplayName("Test User 1");
+    user1.setBio("My name is Test User 1. I'm a tester.");
+
+		User user2 = new User();
+    user2.setId(2L);
+    user2.setUsername("testuser2");
+    user2.setEmail("testuser2@gmail.com");
+    user2.setPassword("testuser@123");
+    user2.setDisplayName("Test User 2");
+    user2.setBio("My name is Test User 2. I'm a tester.");
+
+		List<User> userList = Arrays.asList(user1, user2);
+		when(userService.getAllUsers()).thenReturn(userList);
+
+		mockMvc.perform(get("/api/v1/user/users") // send a GET request to given path 
+		.contentType(MediaType.APPLICATION_JSON)) 
+		.andExpect(status().isOk()) // 200 = OK
+		.andExpect(jsonPath("$", hasSize(2)))
+		.andExpect(jsonPath("$[0].id", is(1)))
+		.andExpect(jsonPath("$[0].username", is("testuser1")))
+		.andExpect(jsonPath("$[1].id", is(2)))
+		.andExpect(jsonPath("$[1].username", is("testuser2")));
+
+		verify(userService, times(1)).getAllUsers();
+	}
 	// Get single user
 	
 	// Create a user
