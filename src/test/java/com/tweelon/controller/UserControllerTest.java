@@ -69,7 +69,34 @@ public class UserControllerTest {
 
 		verify(userService, times(1)).getAllUsers();
 	}
+
 	// Get single user
+	@Test
+	public void testGetUserById() throws Exception{
+		User user = new User();
+		user.setId(1L);
+    user.setUsername("testuser");
+    user.setEmail("testuser@gmail.com");
+    user.setPassword("testuser@123");
+    user.setDisplayName("Test User");
+    user.setBio("My name is Test User. I'm a tester.");
+
+		// return test user
+    when(userService.getUserById(1L)).thenReturn(user);
+	
+		mockMvc.perform(get("/api/v1/user/1")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.id", is(1)))
+			.andExpect(jsonPath("$.username", is("testuser")))
+			.andExpect(jsonPath("$.email", is("testuser@gmail.com")))
+			.andExpect(jsonPath("$.password", is("testuser@123")))
+			.andExpect(jsonPath("$.displayName", is("Test User")))
+			.andExpect(jsonPath("$.bio", is("My name is Test User. I'm a tester.")));
+
+		verify(userService, times(1)).getUserById(1L);
+	}
 	
 	// Create a user
 	@Test
