@@ -30,6 +30,9 @@ public class UserControllerTest {
 
 	@MockBean // mock instance
 	private UserService userService;
+
+	// Get all users
+	// Get single user
 	
 	// Create a user
 	@Test
@@ -53,7 +56,32 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.username", is("testuser")));
 
     verify(userService, times(1)).createUser(any(User.class));
-}
+	}
+
+	// Update a user
+	@Test
+	public void testUpdateUser() throws Exception {
+
+		User user = new User();
+		user.setId(1L);
+    user.setUsername("testuser");
+    user.setEmail("testuser@gmail.com");
+    user.setPassword("testuser@123");
+    user.setDisplayName("Test User");
+    user.setBio("My name is Test User. I'm a tester.");
+    when(userService.createUser(any(User.class))).thenReturn(user);
+
+    when(userService.updateUser(any(User.class) , any(Long.class))).thenReturn(user);
+
+    mockMvc.perform(put("/api/v1/user/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new ObjectMapper().writeValueAsString(user)))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id", is(1)))
+        .andExpect(jsonPath("$.username", is("testuser")));
+    verify(userService, times(1)).updateUser(any(User.class), any(Long.class));
+	}
 
 	// Delete a user
 	@Test
