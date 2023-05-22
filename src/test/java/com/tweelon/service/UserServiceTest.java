@@ -149,7 +149,7 @@ public class UserServiceTest {
     given(userRepository.save(any(User.class))).willAnswer(invocation -> invocation.getArgument(0));
 
     // When
-    User savedUser = userServiceImpl.updateUser(1L, updatedUser);
+    User savedUser = userServiceImpl.updateUser(updatedUser, 1L);
 
     // Then
     assertEquals(savedUser.getUsername(), updatedUser.getUsername());
