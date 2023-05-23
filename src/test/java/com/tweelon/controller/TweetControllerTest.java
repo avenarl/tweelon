@@ -21,16 +21,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -177,5 +174,28 @@ public class TweetControllerTest {
 
 		verify(tweetService, times(1)).getTweetByUserId(1L);
 	}
-	// Get single tweet by user id
+
+	// Get single tweet by id
+	@Test
+	public void testGetTweetById() throws Exception {
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser1");
+
+		Tweet tweet = new Tweet();
+		tweet.setId(1L);
+		tweet.setUser(user);
+		tweet.setContent("tweet 1");
+
+		when(tweetService.getTweetById(1L)).thenReturn(tweet);
+
+		mockMvc.perform(get("/api/v1/tweet/1")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id", is(1)))
+			.andExpect(jsonPath("$.content", is("tweet 1")));
+
+		verify(tweetService, times(1)).getTweetById(1L);
+	}
+	
 }
