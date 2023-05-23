@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tweelon.model.Tweet;
 import com.tweelon.model.User;
 import com.tweelon.service.TweetService;
@@ -37,6 +38,31 @@ public class TweetControllerTest {
 	@MockBean
 	private TweetService tweetService;
 
+	// Create tweets
+	@Test
+	public void testCreateTweet() throws Exception {
+		
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser");
+
+		Tweet tweet = new Tweet();
+		tweet.setId(1L);
+		tweet.setUser(user);
+		tweet.setContent("The created tweet");
+
+		when(tweetService.createTweet(any(Tweet.class), any(Long.class))).thenReturn(tweet);
+
+		mockMvc.perform(post("/api/v1/tweet/1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(new ObjectMapper().writeValueAsString(tweet)))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.id", is(1)))
+			.andExpect(jsonPath("$.content", is("The created tweet")));
+
+		verify(tweetService, times(1)).createTweet(any(Tweet.class), any(Long.class));
+	}
 	// Get all tweet
 	@Test
 	public void testGetAllTweets() throws Exception {
@@ -71,7 +97,6 @@ public class TweetControllerTest {
 
 		verify(tweetService, times(1)).getAllTweets();
 	}
-	// Create tweets
 	// Update a tweet
 	// Delete a tweet by id
 	// Get single tweet by user id
