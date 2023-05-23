@@ -13,6 +13,7 @@ import com.tweelon.model.User;
 import com.tweelon.repository.TweetRepository;
 import com.tweelon.repository.UserRepository;
 import com.tweelon.service.TweetService;
+import com.tweelon.service.impl.TweetServiceImpl;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -20,13 +21,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,6 +44,9 @@ public class TweetControllerTest {
 
 	@MockBean
 	private TweetService tweetService;
+
+	@Mock
+	private TweetServiceImpl tweetServiceImpl;
 
 	@Mock
 	private TweetRepository tweetRepository;
@@ -86,12 +93,12 @@ public class TweetControllerTest {
 		when(tweetService.updateTweet(any(Tweet.class), any(Long.class))).thenReturn(tweet);
 
 		mockMvc.perform(put("/api/v1/tweet/1/1")
-		.contentType(MediaType.APPLICATION_JSON)
-		.content(new ObjectMapper().writeValueAsString(tweet)))
-		.andExpect(status().isOk())
-		.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.id", is(1)))
-		.andExpect(jsonPath("$.content", is("updated tweet")));
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(new ObjectMapper().writeValueAsString(tweet)))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.id", is(1)))
+			.andExpect(jsonPath("$.content", is("updated tweet")));
 
 		verify(tweetService, times(1)).updateTweet(any(Tweet.class), any(Long.class));
 	}
@@ -128,16 +135,47 @@ public class TweetControllerTest {
 		when(tweetService.getAllTweets()).thenReturn(tweetList);
 
 		mockMvc.perform(get("/api/v1/tweet/tweets")
-		.contentType(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$", hasSize(2)))
-		.andExpect(jsonPath("$[0].id", is(1)))
-		.andExpect(jsonPath("$[0].content", is("Tweet 1")))
-		.andExpect(jsonPath("$[1].id", is(2)))
-		.andExpect(jsonPath("$[1].content", is("Tweet 2")));
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", is(1)))
+			.andExpect(jsonPath("$[0].content", is("Tweet 1")))
+			.andExpect(jsonPath("$[1].id", is(2)))
+			.andExpect(jsonPath("$[1].content", is("Tweet 2")));
 
 		verify(tweetService, times(1)).getAllTweets();
 	}
 	// Get single tweet by user id
+	@Test
+	public void testGetTweetByUserId() throws Exception{
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser1");
+
+		Tweet tweet1 = new Tweet();
+		tweet1.setId(1L);
+		tweet1.setUser(user);
+		tweet1.setContent("tweet 1");
+	
+		Tweet tweet2 = new Tweet();
+		tweet2.setId(2L);
+		tweet2.setUser(user);
+		tweet2.setContent("tweet 2");
+
+		List<Tweet> tweets = Arrays.asList(tweet1, tweet2);
+
+		when(tweetService.getTweetByUserId(1L)).thenReturn(tweets);
+
+		mockMvc.perform(get("/api/v1/tweet/user/1")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", is(1)))
+			.andExpect(jsonPath("$[0].content", is("tweet 1")))
+			.andExpect(jsonPath("$[1].id", is(2)))
+			.andExpect(jsonPath("$[1].content", is("tweet 2")));
+
+		verify(tweetService, times(1)).getTweetByUserId(1L);
+	}
 	// Get single tweet by user id
 }
