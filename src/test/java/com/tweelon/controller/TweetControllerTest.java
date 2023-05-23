@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tweelon.model.Tweet;
 import com.tweelon.model.User;
+import com.tweelon.repository.TweetRepository;
+import com.tweelon.repository.UserRepository;
 import com.tweelon.service.TweetService;
 
 import static org.mockito.Mockito.*;
@@ -20,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.Matchers.*;
@@ -37,6 +40,9 @@ public class TweetControllerTest {
 
 	@MockBean
 	private TweetService tweetService;
+
+	@Mock
+	private TweetRepository tweetRepository;
 
 	// Create tweets
 	@Test
@@ -89,6 +95,14 @@ public class TweetControllerTest {
 
 		verify(tweetService, times(1)).updateTweet(any(Tweet.class), any(Long.class));
 	}
+
+	// Delete a tweet by id
+	@Test
+	void testDeleteTweet(){
+		Long tweetId = 1L;
+		tweetRepository.deleteById(tweetId);
+		verify(tweetRepository).deleteById(tweetId);
+	}
 	
 	// Get all tweet
 	@Test
@@ -124,7 +138,6 @@ public class TweetControllerTest {
 
 		verify(tweetService, times(1)).getAllTweets();
 	}
-	// Delete a tweet by id
 	// Get single tweet by user id
 	// Get single tweet by user id
 }
