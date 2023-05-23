@@ -63,6 +63,33 @@ public class TweetControllerTest {
 
 		verify(tweetService, times(1)).createTweet(any(Tweet.class), any(Long.class));
 	}
+
+	// Update a tweet
+	@Test
+	public void testUpdateTweet() throws Exception{
+
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser1");
+
+		Tweet tweet = new Tweet();
+		tweet.setId(1L);
+		tweet.setUser(user);
+		tweet.setContent("updated tweet");
+
+		when(tweetService.updateTweet(any(Tweet.class), any(Long.class))).thenReturn(tweet);
+
+		mockMvc.perform(put("/api/v1/tweet/1/1")
+		.contentType(MediaType.APPLICATION_JSON)
+		.content(new ObjectMapper().writeValueAsString(tweet)))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.id", is(1)))
+		.andExpect(jsonPath("$.content", is("updated tweet")));
+
+		verify(tweetService, times(1)).updateTweet(any(Tweet.class), any(Long.class));
+	}
+	
 	// Get all tweet
 	@Test
 	public void testGetAllTweets() throws Exception {
@@ -97,7 +124,6 @@ public class TweetControllerTest {
 
 		verify(tweetService, times(1)).getAllTweets();
 	}
-	// Update a tweet
 	// Delete a tweet by id
 	// Get single tweet by user id
 	// Get single tweet by user id
