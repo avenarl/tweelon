@@ -35,13 +35,13 @@ public class TweetController {
 	public TweetService tweetService;
 
 	// Create tweets
-	@PostMapping
+	@PostMapping("/{userId}")
 	public Tweet createTweet(@RequestBody Tweet tweet, @PathVariable Long userId){
 		return tweetService.createTweet(tweet, userId);
 	}
 
 	// Update a tweet
-	@PutMapping("/{tweetId}")
+	@PutMapping("/{userId}/{tweetId}")
 	public Tweet updateTweet(@RequestBody Tweet tweet, @PathVariable Long userId){
 		return tweetService.updateTweet(tweet, userId);
 	}
