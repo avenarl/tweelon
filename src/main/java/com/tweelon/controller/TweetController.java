@@ -59,7 +59,7 @@ public class TweetController {
 	}
 
 	// Fetch single tweet by user id
-	@GetMapping("/{userId}")
+	@GetMapping("/user/{userId}")
 	public  List<Tweet> getTweetByUserId(@PathVariable Long userId){
 		return tweetService.getTweetByUserId(userId);
 	}
