@@ -16,6 +16,9 @@ import com.tweelon.model.Follower;
 import com.tweelon.service.FollowerService;
 import com.tweelon.model.User;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -76,6 +79,38 @@ public class FollowerControllerTest {
 	}
 
 	// Get all followers
+	@Test
+	public void testGetAllFollowers() throws Exception{
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser");
+
+		User following = new User();
+		following.setId(2L);
+		following.setUsername("testuser2");
+
+		Follower follower1 = new Follower();
+		follower1.setId(1L);
+		follower1.setUserId(user);
+		follower1.setFollowingId(following);
+
+		Follower follower2 = new Follower();
+		follower2.setId(2L);
+		follower2.setUserId(user);
+		follower2.setFollowingId(following);
+
+		List<Follower> followerList = Arrays.asList(follower1, follower2);
+		when(followerService.getAllFollowers()).thenReturn(followerList);
+
+		mockMvc.perform(get("/api/v1/follower/followers")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", is(1)))
+			.andExpect(jsonPath("$[1].id", is(2)));
+
+		verify(followerService, times(1)).getAllFollowers();
+	}
 	// Get all foolowers by user id
 	// Get all followers by following id
 }
