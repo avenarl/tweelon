@@ -1,14 +1,14 @@
-/**************************************************************************************
- * RetweetController.java 																														*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-14-23																																*
- *																																										*
- * Description: A REST Controller for handling Retweet-related operations in the 			*
- * 						 Tweelon Application. This class maps endpoints for creating, 					*
- * 						 deleting, and fetching retweets. 																			*
- *																																										*
- **************************************************************************************/
+/*
+ * RetweetController.java
+ *
+ * Author: avenarl
+ * Created on: 05-14-23
+ *
+ * Description: A REST Controller for handling Retweet-related operations in the
+ * 						  Tweelon Application. This class maps endpoints for creating,
+ * 						  deleting, and fetching retweets.
+ *	
+ **/
 
 package com.tweelon.controller;
 
@@ -32,19 +32,19 @@ public class RetweetController {
 	private RetweetService retweetService;
 
 	// Create a retweet
-	@PostMapping
+	@PostMapping("/{userId}/{tweetId}")
 	public Retweet createRetweet(@PathVariable Long userId, @PathVariable Long tweetId) {
 		return retweetService.createRetweet(userId, tweetId); 
 	}
 
 	// Delete a retweet
-	@DeleteMapping("/{retweetId}")
+	@DeleteMapping("/{tweetId}")
 	public void deleteRetweet(@PathVariable Long retweetId){
 		retweetService.deleteRetweet(retweetId);
 	}
 
 	// Fetch all retweets
-	@GetMapping("/retweets")
+	@GetMapping("/{tweetId}")
 	public List<Retweet> getAllRetweets(){
 		return retweetService.getAllRetweets();
 	}
