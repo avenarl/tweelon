@@ -38,7 +38,7 @@ public class RetweetController {
 	}
 
 	// Delete a retweet
-	@DeleteMapping("/{tweetId}")
+	@DeleteMapping("/{retweetId}")
 	public void deleteRetweet(@PathVariable Long retweetId){
 		retweetService.deleteRetweet(retweetId);
 	}
@@ -50,7 +50,7 @@ public class RetweetController {
 	}
 
 	// Fetch all retweet by user id
-	@GetMapping("/retweets/{userId}")
+	@GetMapping("/retweets/user/{userId}")
 	public List<Retweet> getRetweetsByUserId(@PathVariable Long userId){
 		return retweetService.getRetweetsByUserId(userId);
 	}
