@@ -41,7 +41,7 @@ public class FollowerController {
 	// Delete a follower
 	@DeleteMapping("/{userId}/{followingId}")
 	public void unfollowUser(@PathVariable Long userId, @PathVariable Long followingId){
-		followerService.followUser(userId, followingId);
+		followerService.unfollowUser(userId, followingId);
 	}
 
 	// Fetch all followers
