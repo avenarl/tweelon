@@ -1,14 +1,14 @@
-/**************************************************************************************
- * FollowerController.java 																														*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-12-23																																*
- *																																										*
- * Description: A REST Controller for handling Follower-related operations in the 		*
- * 						 Tweelon Application. This class maps endpoints for creating, 					*
- * 						 deleting, and fetching tweets. 															 				  *
- *																																										*
- **************************************************************************************/
+/*
+ * FollowerController.java
+ *
+ * Author: avenarl
+ * Created on: 05-12-23
+ *
+ * Description: A REST Controller for handling Follower-related operations in the
+ * 						 	Tweelon Application. This class maps endpoints for creating,
+ * 						 	deleting, and fetching tweets.
+ *
+ **/
 
 package com.tweelon.controller;
 
@@ -34,7 +34,7 @@ public class FollowerController {
 
 	// Create a follower
 	@PostMapping("/{userId}/{followingId}")
-	public Follower followUser(@RequestBody Long userId, @PathVariable Long followingId){
+	public Follower followUser(@PathVariable Long userId, @PathVariable Long followingId){
 		return followerService.followUser(userId, followingId);
 	}
 
@@ -51,13 +51,13 @@ public class FollowerController {
 	}
 
 	// Fetch all followers by user id
-	@GetMapping("/followers/{userId}")
+	@GetMapping("/followers/user/{userId}")
 	public List<Follower> getFollowersByUserId(@PathVariable Long userId){
 		return followerService.getFollowersByUserId(userId);
 	}
 
 	// Fetch all followers by following id
-	@GetMapping("/following/{userId}")
+	@GetMapping("/following/{followingId}")
 	public List<Follower> getFollowingByFollowingId(@PathVariable Long followingId){
 		return followerService.getFollowingByFollowingId(followingId);
 	}
