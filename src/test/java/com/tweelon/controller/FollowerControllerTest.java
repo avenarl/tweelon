@@ -60,7 +60,21 @@ public class FollowerControllerTest {
 
     verify(followerService, times(1)).followUser(any(Long.class), any(Long.class));
 	}
+
 	// Delete follower
+	@Test
+	void testUnfollowUser() throws Exception{
+		Long followingId = 1L;
+		Long userId = 1L;
+		doNothing().when(followerService).unfollowUser(userId, followingId);
+
+		mockMvc.perform(delete("/api/v1/follower/1/1", userId, followingId)
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+
+		verify(followerService, times(1)).unfollowUser(userId, followingId);
+	}
+
 	// Get all followers
 	// Get all foolowers by user id
 	// Get all followers by following id
