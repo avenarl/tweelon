@@ -74,7 +74,15 @@ public class RetweetControllerTest {
 
 		verify(retweetService, times(1)).createRetweet(any(Long.class), any(Long.class));
 	}
+
 	// Delete retweet
+	@Test
+	void testDeleteRetweet(){
+		Long retweetId = 1L;
+		retweetRepository.deleteById(retweetId);
+		verify(retweetRepository).deleteById(retweetId);
+	}
+	
 	// Get all retweets
 	// Get all retweet by user id
 	// Get all retweet by tweet id
