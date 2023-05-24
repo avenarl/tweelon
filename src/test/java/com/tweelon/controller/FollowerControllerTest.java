@@ -111,6 +111,40 @@ public class FollowerControllerTest {
 
 		verify(followerService, times(1)).getAllFollowers();
 	}
-	// Get all foolowers by user id
+	// Get followers by user id
+	@Test
+	public void testGetFollowersByUserId() throws Exception{
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser");
+
+		User following = new User();
+		following.setId(2L);
+		following.setUsername("testuser2");
+
+		Follower follower1 = new Follower();
+		follower1.setId(1L);
+		follower1.setUserId(user);
+		follower1.setFollowingId(following);
+
+		Follower follower2 = new Follower();
+		follower2.setId(2L);
+		follower2.setUserId(user);
+		follower2.setFollowingId(following);
+
+		List<Follower> followerList = Arrays.asList(follower1, follower2);
+		when(followerService.getFollowersByUserId(1L)).thenReturn(followerList);
+
+		mockMvc.perform(get("/api/v1/follower/followers/user/1")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", is(1)))
+			.andExpect(jsonPath("$[1].id", is(2)));
+
+		verify(followerService, times(1)).getFollowersByUserId(1L);
+
+
+	}
 	// Get all followers by following id
 }
