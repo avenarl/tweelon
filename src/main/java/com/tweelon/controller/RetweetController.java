@@ -56,7 +56,7 @@ public class RetweetController {
 	}
 
 	// Fetch all retweet by tweet id
-	@GetMapping("/retweets/{tweetId}")
+	@GetMapping("/retweets/tweet/{tweetId}")
 	public List<Retweet> getRetweetsByTweetId(@PathVariable Long tweetId){
 		return retweetService.getRetweetsByUserId(tweetId);
 	}

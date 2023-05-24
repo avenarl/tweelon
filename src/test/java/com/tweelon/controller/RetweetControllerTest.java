@@ -165,6 +165,46 @@ public class RetweetControllerTest {
 
 		verify(retweetService, times(1)).getRetweetsByUserId(1L);
 	}
+
 	// Get all retweet by tweet id
+	@Test
+	public void testGetTweetByTweetId() throws Exception{
+		User user = new User();
+		user.setId(1L);
+		user.setUsername("testuser1");
+
+		Tweet tweet1 = new Tweet();
+		tweet1.setId(1L);
+		tweet1.setUser(user);
+		tweet1.setContent("tweet 1");
+
+		Retweet retweet1 = new Retweet();
+		retweet1.setId(1L);
+		retweet1.setUserId(user);
+		retweet1.setTweetId(tweet1);
+	
+		Tweet tweet2 = new Tweet();
+		tweet2.setId(2L);
+		tweet2.setUser(user);
+		tweet2.setContent("tweet 2");
+
+		Retweet retweet2 = new Retweet();
+		retweet2.setId(2L);
+		retweet2.setUserId(user);
+		retweet2.setTweetId(tweet2);
+
+		List<Retweet> retweets = Arrays.asList(retweet1, retweet2);
+
+		when(retweetService.getRetweetsByUserId(1L)).thenReturn(retweets);
+
+		mockMvc.perform(get("/api/v1/retweet/retweets/tweet/1")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", is(1)))
+			.andExpect(jsonPath("$[1].id", is(2)));
+
+		verify(retweetService, times(1)).getRetweetsByUserId(1L);
+	}
 
 }
