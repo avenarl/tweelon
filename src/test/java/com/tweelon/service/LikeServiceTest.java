@@ -118,10 +118,13 @@ public class LikeServiceTest {
 	}
 
 	@Test
-	public void testUnLike() {
+	public void testUnlikeTweet() {
 		Long likeId = 1L;
+		Like like = new Like();
+		like.setId(likeId);
+		given(likeRepository.existsById(likeId)).willReturn(true);
     doNothing().when(likeRepository).deleteById(likeId);
-    likeServiceImpl.unLike(likeId);
+    likeServiceImpl.unlikeTweet(likeId);
     verify(likeRepository, times(1)).deleteById(likeId);
 	}
 }
