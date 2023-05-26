@@ -39,7 +39,7 @@ public class LikeServiceImpl implements LikeService {
 	}
 
   @Override
-	public void unLike(Long id){
+	public void unlikeTweet(Long id){
 		// Remove like
 		likeRepository.deleteById(id);
   }

@@ -1,14 +1,14 @@
-/**************************************************************************************
- * LikeController.java 																																*
- *																																										*
- * Author: avenarl																																		*
- * Created on: 05-14-23																																*
- *																																										*
- * Description: A REST Controller for handling Like-related operations in the 				*
- * 						  Tweelon Application. This class maps endpoints for creating, 					*
- * 						  deleting, and fetching likes. 																			  *
- *																																									  *
- **************************************************************************************/
+/*
+ * LikeController.java
+ *
+ * Author: avenarl
+ * Created on: 05-14-23
+ *
+ * Description: A REST Controller for handling Like-related operations in the
+ * 						  Tweelon Application. This class maps endpoints for creating,
+ * 						  deleting, and fetching likes.
+ *
+ **/
 
 package com.tweelon.controller;
 
@@ -32,13 +32,13 @@ public class LikeController {
 
 	// Delete or unlike 
 	@DeleteMapping("/{id}")
-	public void unLike(@PathVariable Long id){
-		likeService.unLike(id);
+	public void unlikeTweet(@PathVariable Long id){
+		likeService.unlikeTweet(id);
 	}
 
 	// Fetch likes by id
 	@GetMapping("/{likeId}")
-	public Like getLikeById(@PathVariable Like likeId, @PathVariable Long userId){
+	public Like getLikeById(@PathVariable Long likeId, @PathVariable Long userId){
 		return likeService.getLikeById(likeId, userId);
 	}
 
