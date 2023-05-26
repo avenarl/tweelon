@@ -35,6 +35,22 @@ public class LikeServiceTest {
 	@InjectMocks
 	private LikeServiceImpl likeServiceImpl;
 
+	@Test
+	public void testLikeTweet() {
+    Long userId = 1L;
+    User user = new User();
+    user.setId(userId);
+
+    Like like = new Like();
+    like.setUserId(user);
+
+    given(likeRepository.save(like)).willReturn(like);
+	  Like returnedLike = likeServiceImpl.likeTweet(like);
+
+    assertEquals(like, returnedLike);
+    verify(likeRepository, times(1)).save(like);
+	}
+
 	//	Get like by Id
 	@Test
 	void testGetLikeById(){
@@ -47,23 +63,17 @@ public class LikeServiceTest {
     like.setUserId(user);
 
     given(likeRepository.findLikeByIdAndUserId(like.getId(), userId)).willReturn(Optional.of(like));
+	  Like returnedLike = likeServiceImpl.getLikeById(like.getId(), userId);
 
-    // When
-    Like returnedLike = likeServiceImpl.getLikeById(like.getId(), userId);
-
-    // Then
     assertEquals(like.getId(), returnedLike.getId());
     assertEquals(userId, returnedLike.getUserId().getId());
 
-    // Verify
     verify(likeRepository).findLikeByIdAndUserId(like.getId(), userId);
 	}
-	//	Remove like
 	
 	//	Get all likes
 	@Test 
 	void testGetAllLikes(){
-		// prepare sample data
 		List<Like> likeList = new ArrayList<>();
 		Long userId1 = 1L;
 		User user1 = new User();
@@ -117,14 +127,17 @@ public class LikeServiceTest {
 		verify(likeRepository).findLikesByUserId(1L);
 	}
 
+	//	Remove like
 	@Test
 	public void testUnlikeTweet() {
 		Long likeId = 1L;
-		Like like = new Like();
-		like.setId(likeId);
+
 		given(likeRepository.existsById(likeId)).willReturn(true);
     doNothing().when(likeRepository).deleteById(likeId);
-    likeServiceImpl.unlikeTweet(likeId);
+
+		likeServiceImpl.unlikeTweet(likeId);
+
+		verify(likeRepository, times(1)).existsById(likeId);
     verify(likeRepository, times(1)).deleteById(likeId);
 	}
 }

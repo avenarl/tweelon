@@ -33,6 +33,11 @@ public class LikeServiceImpl implements LikeService {
 	public UserRepository userRepository;
 
 	@Override
+	public Like likeTweet(Like like){
+		return likeRepository.save(like);
+	}
+
+	@Override
 	public Like getLikeById(Long likeId, Long userId){
 		// Get all likes by its ID & user ID and return
 		return likeRepository.findLikeByIdAndUserId(likeId, userId).orElseThrow(() -> new RuntimeException("Like not found."));
@@ -40,6 +45,9 @@ public class LikeServiceImpl implements LikeService {
 
   @Override
 	public void unlikeTweet(Long id){
+		if (!likeRepository.existsById(id)) {
+			throw new RuntimeException("Like not found.");
+		}
 		// Remove like
 		likeRepository.deleteById(id);
   }
