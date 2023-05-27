@@ -67,6 +67,17 @@ public class LikeControllerTest {
 		mockMvc.perform(get("/api/v1/like/likes/{likeId}/{userId}", 1, 1))
       .andExpect(status().isOk());
 	}
+
+	// Get all likes
+ 	@Test
+	void testGetAllLikes() throws Exception {
+		List<Like> likes = Arrays.asList(like);
+
+		given(likeService.getAllLikes()).willReturn(likes);
+
+		mockMvc.perform(get("/api/v1/like/likes"))
+			.andExpect(status().isOk());
+	}
 }
 
 
