@@ -78,6 +78,17 @@ public class LikeControllerTest {
 		mockMvc.perform(get("/api/v1/like/likes"))
 			.andExpect(status().isOk());
 	}
+
+	// Get likes by user id
+	@Test
+	void testGetLikesByUserId() throws Exception {
+		List<Like> likes = Arrays.asList(like);
+		
+		given(likeService.getLikesByUserId(anyLong())).willReturn(likes);
+
+		mockMvc.perform(get("/api/v1/like/likes/user/{userId}", 1))
+			.andExpect(status().isOk());
+	}
 }
 
 
