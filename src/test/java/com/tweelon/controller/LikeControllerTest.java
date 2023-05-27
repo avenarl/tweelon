@@ -57,7 +57,16 @@ public class LikeControllerTest {
 	void likeUnlikeTweet() throws Exception {
 		mockMvc.perform(delete("/api/v1/like/{likeId}", 1))
 			.andExpect(status().isOk());
-    }
+	}
+
+	// Get likes by id
+	@Test
+  void testGetLikeById() throws Exception {
+		given(likeService.getLikeById(anyLong(), anyLong())).willReturn(like);
+
+		mockMvc.perform(get("/api/v1/like/likes/{likeId}/{userId}", 1, 1))
+      .andExpect(status().isOk());
+	}
 }
 
 
