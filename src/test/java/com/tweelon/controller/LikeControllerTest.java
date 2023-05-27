@@ -24,32 +24,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LikeControllerTest {
-		@Autowired
-    private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-    @MockBean
-    private LikeService likeService;
+	@MockBean
+	private LikeService likeService;
 
-    private Like like;
+	private Like like;
 
-  	@BeforeEach
-    void setUp() {
-        like = new Like();
-        like.setId(1L);
-        // Set other properties of the like object
-    }
+	@BeforeEach
+	void setUp() {
+		like = new Like();
+		like.setId(1L);
+	}
 
-		@Test
-    void testLikeTweet() throws Exception {
-        given(likeService.likeTweet(any(Like.class), anyLong())).willReturn(like);
+	// Create like
+	@Test
+	void testLikeTweet() throws Exception {
+		given(likeService.likeTweet(any(Like.class), anyLong())).willReturn(like);
 
-        mockMvc.perform(post("/api/v1/like/{userId}/{likeId}", 1, 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(like)))
-                .andExpect(status().isOk());
+		mockMvc.perform(post("/api/v1/like/{userId}/{likeId}", 1, 1)
+			.contentType(MediaType.APPLICATION_JSON)
+      .content(objectMapper.writeValueAsString(like)))
+      .andExpect(status().isOk());
+	}
+
+	// Delete like
+	@Test
+	void likeUnlikeTweet() throws Exception {
+		mockMvc.perform(delete("/api/v1/like/{likeId}", 1))
+			.andExpect(status().isOk());
     }
 }
 
