@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,14 +32,19 @@ public class LikeController {
 	@Autowired
 	private LikeService likeService;
 
+	// Like a tweet
+	@PostMapping("/{userId}/{likeId}")
+	public Like likeTweet(@RequestBody Like like, @PathVariable Long userId){
+		return likeService.likeTweet(like, userId);
+	}
 	// Delete or unlike 
-	@DeleteMapping("/{id}")
-	public void unlikeTweet(@PathVariable Long id){
-		likeService.unlikeTweet(id);
+	@DeleteMapping("/{likeId}")
+	public void unlikeTweet(@PathVariable Long likeId){
+		likeService.unlikeTweet(likeId);
 	}
 
 	// Fetch likes by id
-	@GetMapping("/{likeId}")
+	@GetMapping("/likes/{likeId}/{userId}")
 	public Like getLikeById(@PathVariable Long likeId, @PathVariable Long userId){
 		return likeService.getLikeById(likeId, userId);
 	}
@@ -49,98 +56,10 @@ public class LikeController {
 	}
 
 	// Fetch likes by user id
-	@GetMapping("/{userId}")
+	@GetMapping("/likes/user/{userId}")
 	public List<Like> getLikesByUserId(@PathVariable Long userId){
 		return likeService.getLikesByUserId(userId);
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

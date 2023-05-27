@@ -33,7 +33,7 @@ public class LikeServiceImpl implements LikeService {
 	public UserRepository userRepository;
 
 	@Override
-	public Like likeTweet(Like like){
+	public Like likeTweet(Like like, Long userId){
 		return likeRepository.save(like);
 	}
 

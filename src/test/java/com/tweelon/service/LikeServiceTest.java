@@ -30,7 +30,7 @@ public class LikeServiceTest {
 	private LikeRepository likeRepository;
 
 	@Mock
-	private UserRepository userReository;
+	private UserRepository userRepository;
 
 	@InjectMocks
 	private LikeServiceImpl likeServiceImpl;
@@ -45,7 +45,7 @@ public class LikeServiceTest {
     like.setUserId(user);
 
     given(likeRepository.save(like)).willReturn(like);
-	  Like returnedLike = likeServiceImpl.likeTweet(like);
+	  Like returnedLike = likeServiceImpl.likeTweet(like, userId);
 
     assertEquals(like, returnedLike);
     verify(likeRepository, times(1)).save(like);
