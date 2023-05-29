@@ -19,7 +19,6 @@ Thumbs.db
 # Application-specific files
 *.h2.server.properties
 *.h2.console.properties
-application*.yml
 application*.properties
 
 ### STS ###
