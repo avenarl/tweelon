@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -41,6 +43,29 @@ public class UserServiceTest {
   void initUseCase(){
     userServiceImpl = new UserServiceImpl(userRepository, passwordEncoder);
   }
+
+	// Register
+	@Test
+	public void testRegisterUser() {
+		User user = new User();
+		user.setUsername("test");
+		user.setEmail("test@example.com");
+		user.setPassword("password");
+
+    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
+    when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+		when(passwordEncoder.encode(anyString())).thenReturn("encryptedPassword");
+    when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+    User result = userServiceImpl.registerUser(user);
+        
+		assertEquals(user.getUsername(), result.getUsername());
+    assertEquals(user.getEmail(), result.getEmail());
+  	assertEquals("encryptedPassword", result.getPassword());
+		verify(userRepository, times(1)).findByUsername(user.getUsername());
+		verify(userRepository, times(1)).findByEmail(user.getEmail());
+		verify(userRepository, times(1)).save(user);
+	}
 
 	// Save user
 	@Test
