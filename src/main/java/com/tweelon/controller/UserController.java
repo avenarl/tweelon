@@ -21,6 +21,12 @@ public class UserController {
 
 	@Autowired
 	public UserService userService; // Access methods from user service
+	
+	// Register
+	@PostMapping("/register")
+	public User registerUser(@RequestBody User user){
+		return userService.registerUser(user);
+	}
 
 	// Fetch all users
 	@GetMapping("/users")
