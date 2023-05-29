@@ -22,6 +22,7 @@ import com.tweelon.model.User;
 @Service
 public interface UserService {
 	
+	User registerUser(User user); // Register
 	User save(User user); // Save a User.
 	User createUser(User user); // Create a User.
 	User getUserById(Long id); // Retrieve a User by its ID.
