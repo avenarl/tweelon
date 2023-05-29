@@ -1,22 +1,22 @@
-/*************************************************************************************
- * User.java 																																				 *
- *																																									 *
- * Author: avenarl																																	 *
- * Created on: 05-14-23																															 *
- *																																									 *
- * Description: A User entity representing a user in the Tweelon Application.        *
- * 						  This model holds information about a user's account, including       *
- * 						  their username, email, password, display name, bio, profile image,   *
- * 						  and timestamps for creation and updates.                             *
- *                                                                                   *
- * Feature:                                                                          *
- * 		- Register a new user.                                                         *
- * 		- Authenticate a user.                                                         *
- * 		- Update user profie.                                                          *
- * 		- Get user details.                                                            *
- * 		- Delete a user account.                                                       *
- *                                                                                   *
- *************************************************************************************/
+/**
+ * User.java
+ *
+ * Author: avenarl
+ * Created on: 05-14-23
+ *
+ * Description: A User entity representing a user in the Tweelon Application.
+ * 						  This model holds information about a user's account, including
+ * 						  their username, email, password, display name, bio, profile image,
+ * 						  and timestamps for creation and updates.
+ *
+ * Feature:
+ * 		- Register a new user.
+ * 		- Authenticate a user.
+ * 		- Update user profie.
+ * 		- Get user details.
+ * 		- Delete a user account.
+ *
+ */
 
 package com.tweelon.model;
 
