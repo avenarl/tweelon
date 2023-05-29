@@ -12,6 +12,8 @@
 
 package com.tweelon.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +21,6 @@ import com.tweelon.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{ // id = Long
-
+		Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }
