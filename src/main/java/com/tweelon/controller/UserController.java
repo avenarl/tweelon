@@ -16,7 +16,7 @@ import com.tweelon.model.User;
 import com.tweelon.service.UserService;
 
 @RestController
-@RequestMapping("/api/v1/user/") 
+@RequestMapping("/api/v1/user") 
 public class UserController {
 
 	@Autowired
