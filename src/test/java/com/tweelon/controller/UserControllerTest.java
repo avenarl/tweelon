@@ -36,6 +36,22 @@ public class UserControllerTest {
 	@MockBean // mock instance
 	private UserService userService;
 
+	@Test
+	public void testRegisterUser() throws Exception {
+		User user = new User();
+		user.setUsername("test");
+    user.setEmail("test@example.com");
+
+    when(userService.registerUser(any(User.class))).thenReturn(user);
+ 		
+		mockMvc.perform(post("/api/v1/user/register")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(new ObjectMapper().writeValueAsString(user)))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.username", is(user.getUsername())))
+      .andExpect(jsonPath("$.email", is(user.getEmail())));
+	}
+  
 	// Get all users
 	@Test
 	public void testGetAllUsers() throws Exception {
