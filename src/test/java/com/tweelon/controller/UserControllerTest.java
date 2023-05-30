@@ -111,7 +111,7 @@ public class UserControllerTest {
     user.setBio("My name is Test User. I'm a tester.");
     when(userService.createUser(any(User.class))).thenReturn(user);
 
-    mockMvc.perform(post("/api/v1/user/")
+    mockMvc.perform(post("/api/v1/user")
         .contentType(MediaType.APPLICATION_JSON)
         .content(new ObjectMapper().writeValueAsString(user)))
         .andExpect(status().isOk())
