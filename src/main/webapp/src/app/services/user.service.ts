@@ -5,10 +5,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
+  private apiServerUrl = 'http://localhost:8080/api/v1/user';
+
   constructor(private http: HttpClient) {}
 
   register(user: any) {
-    return this.http.post('http://localhost:8080/api/v1/user/register', user);
+    return this.http.post<any[]>(`${this.apiServerUrl}/register`, user);
   }
 
   getAllUsers(): Observable<any[]> {
