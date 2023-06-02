@@ -26,29 +26,10 @@ public class UserServiceImpl implements UserService{
 
 	// Constructor for testing
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
-
   public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
   }
-
-	@Override
-	public User registerUser(User user){
-		Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
-		if(existingUser.isPresent()){
-			throw new RuntimeException("Username already exists");
-		}
-		existingUser = userRepository.findByEmail(user.getEmail());
-		if(existingUser.isPresent()){
-			throw new RuntimeException("Email already exists");
-		}
-
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return userRepository.save(user);
-	}
 
 	@Override
   public User save(User user){
@@ -57,6 +38,12 @@ public class UserServiceImpl implements UserService{
 		// Save user
     return userRepository.save(user);
   }
+
+	@Override
+	public User registerUser(User user){
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		return userRepository.save(user);
+	}
 
 	@Override
 	public User createUser(User user) {
