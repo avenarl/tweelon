@@ -11,7 +11,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // allow CORS for all endpoints
                 .allowedOrigins("http://localhost:4200") // allow this origin angular
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // allow these HTTP methods
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // allow these HTTP methods
                 .allowCredentials(true) // allow sending of cookies and HTTP authentication information
                 .maxAge(3600); // how long the response from a pre-flight request can be cached
     }
