@@ -60,6 +60,9 @@ public class User {
 	@Column(columnDefinition = "TEXT")
 	private String bio;
 
+	@Column(columnDefinition = "profile_image")
+	private String profileImage;
+
 	@Column(name = "created_at", nullable = false)
 	private LocalDateTime createdAt;
 
