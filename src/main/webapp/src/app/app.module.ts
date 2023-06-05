@@ -10,13 +10,7 @@ import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [AppComponent, RegisterComponent, LoginComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-  ],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
   providers: [UserService],
   bootstrap: [AppComponent],
 })
