@@ -8,12 +8,12 @@ import { User } from './models/user.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'webapp';
+  title = 'Twitter Clone';
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.getAllUsers().subscribe((users: User) => {
+    this.userService.getAllUsers().subscribe((users: User[]) => {
       console.log(users);
     });
   }
