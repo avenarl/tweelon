@@ -1,7 +1,16 @@
-import { User } from './user';
+import { User } from './user.model';
 
 describe('User', () => {
   it('should create an instance', () => {
-    expect(new User()).toBeTruthy();
+    const user: User = {
+      username: 'testUser',
+      password: 'passwordtest',
+      email: 'test@example.com',
+      displayName: 'Test User',
+      bio: 'This is a test bio',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    expect(user).toBeTruthy();
   });
 });
