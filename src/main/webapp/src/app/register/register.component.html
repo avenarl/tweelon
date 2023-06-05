@@ -8,5 +8,16 @@
   <label for="password">Password:</label>
   <input id="password" [(ngModel)]="user.password" name="password" required />
 
+  <label for="displayName">Display Name:</label>
+  <input
+    id="displayName"
+    [(ngModel)]="user.displayName"
+    name="displayName"
+    required
+  />
+
+  <label for="bio">Bio:</label>
+  <textarea id="bio" [(ngModel)]="user.bio" name="bio" required></textarea>
+
   <button type="submit">Register</button>
 </form>
