@@ -40,6 +40,21 @@ public class UserServiceImpl implements UserService{
   }
 
 	@Override
+	public User loginUser(User user){
+		Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
+  	if (!optionalUser.isPresent()) {
+			throw new RuntimeException("User not found with username: " + user.getUsername());
+		}
+
+		User existingUser = optionalUser.get();
+		if (!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+			throw new RuntimeException("Invalid password");
+		}
+
+		return existingUser;
+	}
+
+	@Override
 	public User registerUser(User user){
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
