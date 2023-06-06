@@ -37,6 +37,21 @@ public class UserControllerTest {
 	private UserService userService;
 
 	@Test
+	public void testLoginUser() throws Exception {
+		User user1 = new User();
+		user1.setUsername("username");
+		user1.setPassword("userPassword");
+
+		when(userService.loginUser(any(User.class))).thenReturn(user1);
+
+		mockMvc.perform(post("/api/v1/user")
+			.content(new ObjectMapper().writeValueAsString(user1))
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+	}
+
+	@Test
 	public void testRegisterUser() throws Exception {
 		User user = new User();
 		user.setUsername("test");
@@ -47,9 +62,9 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/v1/user/register")
       .contentType(MediaType.APPLICATION_JSON)
       .content(new ObjectMapper().writeValueAsString(user)))
-      .andExpect(status().isOk())
       .andExpect(jsonPath("$.username", is(user.getUsername())))
-      .andExpect(jsonPath("$.email", is(user.getEmail())));
+      .andExpect(jsonPath("$.email", is(user.getEmail())))
+			.andExpect(status().isCreated());
 	}
   
 	// Get all users
