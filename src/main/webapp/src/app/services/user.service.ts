@@ -15,6 +15,10 @@ export class UserService {
     return this.http.post<User>(`${this.apiServerUrl}/register`, user);
   }
 
+  login(user: User) {
+    return this.http.post<User>(`${this.apiServerUrl}/login`, user);
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiServerUrl}/users`);
   }
