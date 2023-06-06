@@ -44,6 +44,21 @@ public class UserServiceTest {
     userServiceImpl = new UserServiceImpl(userRepository, passwordEncoder);
   }
 
+	// Login 
+	@Test
+	void testLoginUser() {
+		User user = new User();
+		user.setUsername("test");
+		user.setPassword("password");
+
+		when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+		when(passwordEncoder.matches(user.getPassword(), user.getPassword())).thenReturn(true);
+
+		User result = userServiceImpl.loginUser(user);
+
+		assertEquals(user.getUsername(), result.getUsername());
+	}
+
 	// Register
 	@Test
 	public void testRegisterUser() {
