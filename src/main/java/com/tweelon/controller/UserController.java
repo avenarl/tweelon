@@ -30,6 +30,25 @@ public class UserController {
 	@Autowired
 	public UserRepository userRepository;
 
+	// Login
+	@PostMapping("/login")
+	public ResponseEntity<User> loginUser(@RequestBody User user){
+
+		Optional<User> usernameEntry = userRepository.findByUsername(user.getUsername());
+
+		if(usernameEntry.isPresent()){
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect Username");
+		}
+
+		User existingUser = usernameEntry.get();
+		if(!existingUser.getPassword().equals(user.getPassword())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect Password");
+		}
+
+		return new ResponseEntity<>(existingUser, HttpStatus.OK);
+
+	}
+
 	// Register
 	@PostMapping("/register")
 	public ResponseEntity<User> registerUser(@RequestBody User user){
