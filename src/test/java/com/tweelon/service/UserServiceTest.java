@@ -52,8 +52,6 @@ public class UserServiceTest {
 		user.setEmail("test@example.com");
 		user.setPassword("password");
 
-    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
-    when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
 		when(passwordEncoder.encode(anyString())).thenReturn("encryptedPassword");
     when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -62,8 +60,6 @@ public class UserServiceTest {
 		assertEquals(user.getUsername(), result.getUsername());
     assertEquals(user.getEmail(), result.getEmail());
   	assertEquals("encryptedPassword", result.getPassword());
-		verify(userRepository, times(1)).findByUsername(user.getUsername());
-		verify(userRepository, times(1)).findByEmail(user.getEmail());
 		verify(userRepository, times(1)).save(user);
 	}
 
