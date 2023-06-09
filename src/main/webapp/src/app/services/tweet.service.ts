@@ -14,4 +14,8 @@ export class TweetService {
   getTweets(): Observable<Tweet[]> {
     return this.http.get<Tweet[]>(`${this.baseUrl}/tweets`);
   }
+
+  createTweet(userId: number, tweet: Tweet): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/${userId}`, tweet);
+  }
 }
