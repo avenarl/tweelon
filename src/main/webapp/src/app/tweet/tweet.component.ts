@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Tweet } from '../models/tweet.model';
 import { TweetService } from '../services/tweet.service';
 import { User } from '../models/user.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tweet',
@@ -12,7 +13,10 @@ export class TweetComponent implements OnInit {
   tweets: Tweet[] = [];
   newTweet: Tweet = new Tweet();
 
-  constructor(private tweetService: TweetService) {}
+  constructor(
+    private tweetService: TweetService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.getTweets();
@@ -25,7 +29,8 @@ export class TweetComponent implements OnInit {
   }
 
   createTweet(): void {
-    this.tweetService.createTweet(1, this.newTweet).subscribe(() => {
+    const user = this.authService.getCurrentUser();
+    this.tweetService.createTweet(user.id, this.newTweet).subscribe(() => {
       this.newTweet = new Tweet();
       this.getTweets();
     });

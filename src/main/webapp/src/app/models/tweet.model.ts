@@ -10,6 +10,7 @@ export class Tweet {
   constructor() {
     this.id = 0;
     this.user = {
+      id: 1,
       username: '',
       password: '',
       email: '',

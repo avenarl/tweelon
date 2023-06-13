@@ -1,1 +1,24 @@
-<p>tweet works!</p>
+<div class="tweet-box">
+  <h2>Create a new tweet:</h2>
+  <form (ngSubmit)="createTweet()">
+    <textarea
+      [(ngModel)]="newTweet.content"
+      name="content"
+      required
+      placeholder="What's happening?"
+    ></textarea>
+    <button type="submit">Tweet</button>
+  </form>
+</div>
+
+<div class="tweet-list">
+  <h2>All Tweets:</h2>
+  <div *ngFor="let tweet of tweets">
+    <p>
+      <strong>{{ tweet.user.username }}</strong> @{{ tweet.user.username }} ·
+      {{ tweet.createdAt | date }}
+    </p>
+    <p>{{ tweet.content }}</p>
+    <hr />
+  </div>
+</div>
