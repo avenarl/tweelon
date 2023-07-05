@@ -27,103 +27,103 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class FollowerServiceTest {
 
-	@Mock
-	private FollowerRepository followerRepository;	
+    @Mock
+    private FollowerRepository followerRepository;
 
-	@Mock
-	private UserRepository userRepository;
+    @Mock
+    private UserRepository userRepository;
 
-	@InjectMocks
-	private FollowerServiceImpl followerServiceImpl;
-		
-	// Follower user
-	@Test
-	public void testFollowUser() {
-		Long userId = 1L;
-    Long followingId = 2L;
-    
-    User user = new User();
-    User followingUser = new User();
-    
-    Follower follower = new Follower();
-    follower.setUserId(user);
-    follower.setFollowingId(followingUser);
+    @InjectMocks
+    private FollowerServiceImpl followerServiceImpl;
 
-    given(userRepository.findById(userId)).willReturn(Optional.of(user));
-    given(userRepository.findById(followingId)).willReturn(Optional.of(followingUser));
-    given(followerRepository.save(any(Follower.class))).willReturn(follower);
+    // Follower user
+    @Test
+    public void testFollowUser() {
+        Long userId = 1L;
+        Long followingId = 2L;
 
-    Follower savedFollower = followerServiceImpl.followUser(userId, followingId);
+        User user = new User();
+        User followingUser = new User();
 
-    assertEquals(savedFollower, follower);
-    assertEquals(savedFollower.getUserId(), user);
-    assertEquals(savedFollower.getFollowingId(), followingUser);
-    
-    verify(userRepository, times(1)).findById(userId);
-    verify(userRepository, times(1)).findById(followingId);
-    verify(followerRepository, times(1)).save(any(Follower.class));
-	}
+        Follower follower = new Follower();
+        follower.setUserId(user);
+        follower.setFollowingId(followingUser);
 
-	// Unfollow a user
-	@Test
-	public void testUnfollowUserNotExistingFollower() {
-    Long userId = 1L;
-    Long followingId = 2L;
-    
-    given(followerRepository.findByUserIdAndFollowingId(userId, followingId)).willReturn(Optional.empty());
+        given(userRepository.findById(userId)).willReturn(Optional.of(user));
+        given(userRepository.findById(followingId)).willReturn(Optional.of(followingUser));
+        given(followerRepository.save(any(Follower.class))).willReturn(follower);
 
-    assertThrows(RuntimeException.class, () -> {
-        followerServiceImpl.unfollowUser(userId, followingId);
-    });
+        Follower savedFollower = followerServiceImpl.followUser(userId, followingId);
 
-    verify(followerRepository).findByUserIdAndFollowingId(userId, followingId);
-    verify(followerRepository, times(0)).delete(any(Follower.class));
-	}
+        assertEquals(savedFollower, follower);
+        assertEquals(savedFollower.getUserId(), user);
+        assertEquals(savedFollower.getFollowingId(), followingUser);
 
-	// Get all followers
-	@Test
-	public void testGetAllFollowers() {
-    List<Follower> followers = new ArrayList<>();
-    followers.add(new Follower());
-    followers.add(new Follower());
+        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findById(followingId);
+        verify(followerRepository, times(1)).save(any(Follower.class));
+    }
 
-    given(followerRepository.findAll()).willReturn(followers);
+    // Unfollow a user
+    @Test
+    public void testUnfollowUserNotExistingFollower() {
+        Long userId = 1L;
+        Long followingId = 2L;
 
-    List<Follower> result = followerServiceImpl.getAllFollowers();
+        given(followerRepository.findByUserIdAndFollowingId(userId, followingId)).willReturn(Optional.empty());
 
-    assertEquals(2, result.size());
-    verify(followerRepository).findAll();
-	}
+        assertThrows(RuntimeException.class, () -> {
+            followerServiceImpl.unfollowUser(userId, followingId);
+        });
 
-	// Get following by following id
-	@Test
-	public void testGetFollowingByFollowingId() {
-    Long followingId = 1L;
-    List<Follower> followers = new ArrayList<>();
-    followers.add(new Follower());
-    followers.add(new Follower());
+        verify(followerRepository).findByUserIdAndFollowingId(userId, followingId);
+        verify(followerRepository, times(0)).delete(any(Follower.class));
+    }
 
-    given(followerRepository.findByFollowingId(followingId)).willReturn(followers);
+    // Get all followers
+    @Test
+    public void testGetAllFollowers() {
+        List<Follower> followers = new ArrayList<>();
+        followers.add(new Follower());
+        followers.add(new Follower());
 
-    List<Follower> result = followerServiceImpl.getFollowingByFollowingId(followingId);
+        given(followerRepository.findAll()).willReturn(followers);
 
-    assertEquals(2, result.size());
-    verify(followerRepository).findByFollowingId(followingId);
-	}
+        List<Follower> result = followerServiceImpl.getAllFollowers();
 
-	// Get followers by user id
-	@Test
-	public void testGetFollowersByUserId() {
-    Long userId = 1L;
-    List<Follower> followers = new ArrayList<>();
-    followers.add(new Follower());
-    followers.add(new Follower());
+        assertEquals(2, result.size());
+        verify(followerRepository).findAll();
+    }
 
-    given(followerRepository.findByUserId(userId)).willReturn(followers);
+    // Get following by following id
+    @Test
+    public void testGetFollowingByFollowingId() {
+        Long followingId = 1L;
+        List<Follower> followers = new ArrayList<>();
+        followers.add(new Follower());
+        followers.add(new Follower());
 
-    List<Follower> result = followerServiceImpl.getFollowersByUserId(userId);
+        given(followerRepository.findByFollowingId(followingId)).willReturn(followers);
 
-    assertEquals(2, result.size());
-    verify(followerRepository).findByUserId(userId);
-	}
+        List<Follower> result = followerServiceImpl.getFollowingByFollowingId(followingId);
+
+        assertEquals(2, result.size());
+        verify(followerRepository).findByFollowingId(followingId);
+    }
+
+    // Get followers by user id
+    @Test
+    public void testGetFollowersByUserId() {
+        Long userId = 1L;
+        List<Follower> followers = new ArrayList<>();
+        followers.add(new Follower());
+        followers.add(new Follower());
+
+        given(followerRepository.findByUserId(userId)).willReturn(followers);
+
+        List<Follower> result = followerServiceImpl.getFollowersByUserId(userId);
+
+        assertEquals(2, result.size());
+        verify(followerRepository).findByUserId(userId);
+    }
 }

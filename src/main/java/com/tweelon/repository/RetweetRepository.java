@@ -20,15 +20,15 @@ import org.springframework.stereotype.Repository;
 import com.tweelon.model.Retweet;
 
 @Repository
-public interface RetweetRepository extends JpaRepository<Retweet, Long>{
+public interface RetweetRepository extends JpaRepository<Retweet, Long> {
 
-	// SELECT * FROM retweets WHERE user_id = ?1 AND tweet_id = ?2;
-	Retweet findRetweetsByIdAndUserId(Long userId, Long tweetId);
+    // SELECT * FROM retweets WHERE user_id = ?1 AND tweet_id = ?2;
+    Retweet findRetweetsByIdAndUserId(Long userId, Long tweetId);
 
-	// SELECT * FROM retweets WHERE user_id = ?1;
-  List<Retweet> findByUserId(Long userId);
+    // SELECT * FROM retweets WHERE user_id = ?1;
+    List<Retweet> findByUserId(Long userId);
 
-	// SELECT * FROM retweets WHERE tweet_id = ?2; 
-	List<Retweet> findByTweetId(Long tweetId);
+    // SELECT * FROM retweets WHERE tweet_id = ?2;
+    List<Retweet> findByTweetId(Long tweetId);
 
 }	

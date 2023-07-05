@@ -5,8 +5,8 @@
  * Created on: 05-14-23
  *
  * Description: A REST Controller for handling Tweet-related operations in the
- * 						  Tweelon Application. This class maps endpoints for creating,
- * 						  updating, deleting, and fetching tweets.
+ *              Tweelon Application. This class maps endpoints for creating,
+ *              updating, deleting, and fetching tweets.
  *
  **/
 
@@ -31,43 +31,42 @@ import com.tweelon.service.TweetService;
 @RequestMapping("/api/v1/tweet")
 public class TweetController {
 
-	@Autowired
-	public TweetService tweetService;
+    @Autowired
+    public TweetService tweetService;
 
-	// Create tweets
-	@PostMapping("/{userId}")
-	public Tweet createTweet(@RequestBody Tweet tweet, @PathVariable Long userId){
-		return tweetService.createTweet(tweet, userId);
-	}
+    // Create tweets
+    @PostMapping("/{userId}")
+    public Tweet createTweet(@RequestBody Tweet tweet, @PathVariable Long userId) {
+        return tweetService.createTweet(tweet, userId);
+    }
 
-	// Update a tweet
-	@PutMapping("/{userId}/{tweetId}")
-	public Tweet updateTweet(@RequestBody Tweet tweet, @PathVariable Long userId){
-		return tweetService.updateTweet(tweet, userId);
-	}
+    // Update a tweet
+    @PutMapping("/{userId}/{tweetId}")
+    public Tweet updateTweet(@RequestBody Tweet tweet, @PathVariable Long userId) {
+        return tweetService.updateTweet(tweet, userId);
+    }
 
-	// Delete a tweet
-	@DeleteMapping("/{tweetId}")
-	public void deleteTweet(@PathVariable Long id){
-		tweetService.deleteTweet(id);
-	}
+    // Delete a tweet
+    @DeleteMapping("/{tweetId}")
+    public void deleteTweet(@PathVariable Long id) {
+        tweetService.deleteTweet(id);
+    }
 
-	// Fetch single tweet by id 
-	@GetMapping("/{tweetId}")
-	public Tweet getTweetById(@PathVariable Long tweetId){
-		return tweetService.getTweetById(tweetId);
-	}
+    // Fetch single tweet by id
+    @GetMapping("/{tweetId}")
+    public Tweet getTweetById(@PathVariable Long tweetId) {
+        return tweetService.getTweetById(tweetId);
+    }
 
-	// Fetch single tweet by user id
-	@GetMapping("/user/{userId}")
-	public  List<Tweet> getTweetByUserId(@PathVariable Long userId){
-		return tweetService.getTweetByUserId(userId);
-	}
+    // Fetch single tweet by user id
+    @GetMapping("/user/{userId}")
+    public List<Tweet> getTweetByUserId(@PathVariable Long userId) {
+        return tweetService.getTweetByUserId(userId);
+    }
 
-	// Fetch all tweet
-	@GetMapping("/tweets")
-	public List<Tweet> getAllTweets(){
-		return tweetService.getAllTweets();
-	}
-
+    // Fetch all tweet
+    @GetMapping("/tweets")
+    public List<Tweet> getAllTweets() {
+        return tweetService.getAllTweets();
+    }
 }

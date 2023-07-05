@@ -1,21 +1,20 @@
 /**
  * User.java
- *
+ * <p>
  * Author: avenarl
  * Created on: 05-14-23
- *
+ * <p>
  * Description: A User entity representing a user in the Tweelon Application.
- * 						  This model holds information about a user's account, including
- * 						  their username, email, password, display name, bio, profile image,
- * 						  and timestamps for creation and updates.
- *
+ * This model holds information about a user's account, including
+ * their username, email, password, display name, bio, profile image,
+ * and timestamps for creation and updates.
+ * <p>
  * Feature:
- * 		- Register a new user.
- * 		- Authenticate a user.
- * 		- Update user profie.
- * 		- Get user details.
- * 		- Delete a user account.
- *
+ * - Register a new user.
+ * - Authenticate a user.
+ * - Update user profie.
+ * - Get user details.
+ * - Delete a user account.
  */
 
 package com.tweelon.model;
@@ -35,124 +34,117 @@ import jakarta.persistence.Table;
 @Table(name = "users", schema = "public")
 public class User {
 
-	/***********************
-	 *										 *
-	 *   Column Mappings   *
-	 *										 *		
-	 ***********************/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Column(nullable = false, unique = true)
+    private String username;
 
-	@Column(nullable = false, unique = true)
-	private String username;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-	@Column(nullable = false, unique = true)
-	private String email;
+    @Column(nullable = false)
+    private String password;
 
-	@Column(nullable = false)
-	private String password;
+    @Column(name = "display_name")
+    private String displayName;
 
-	@Column(name = "display_name")
-	private String displayName;
+    @Column(columnDefinition = "TEXT")
+    private String bio;
 
-	@Column(columnDefinition = "TEXT")
-	private String bio;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-	@Column(name = "created_at", nullable = false)
-	private LocalDateTime createdAt;
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
-	@Column(name = "updated_at", nullable = false)
-	private LocalDateTime updatedAt;
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
 
-	@PrePersist
-	public void prePersist(){
-		createdAt = LocalDateTime.now();
-		updatedAt = LocalDateTime.now();
-	}
-
-	@PreUpdate
-	public void preUpdate(){
-		updatedAt = LocalDateTime.now();
-	}
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
 
-	/******************************* 	
-	 * 	Getter and Setter Methods	 *
-	 * 														 *
-	 *******************************/
-	
-	// ID
-	public Long getId() {
-		return id;
-	}
+    /**
+     * Getter and Setter Methods
+     */
 
-	public void setId(Long id){
-		this.id = id;
-	}
+    // ID
+    public Long getId() {
+        return id;
+    }
 
-	// Username
-	public String getUsername() {
-		return username;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    // Username
+    public String getUsername() {
+        return username;
+    }
 
-	// Email
-	public String getEmail(){
-		return email;
-	}
-	
-	public void setEmail(String email){
-		this.email = email;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	// Password
-	public String getPassword(){
-		return password;
-	}
+    // Email
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPassword(String password){
-		this.password = password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	// Display Name
-	public String getDisplayName(){
-		return displayName;
-	}
+    // Password
+    public String getPassword() {
+        return password;
+    }
 
-	public void setDisplayName(String displayName){
-		this.displayName = displayName;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	// Bio
-	public String getBio(){
-		return bio;
-	}
+    // Display Name
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public void setBio(String bio){
-		this.bio = bio;
-	}
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
-	// Created At
-	public LocalDateTime getCreatedAt(){
-		return createdAt;
-	}
+    // Bio
+    public String getBio() {
+        return bio;
+    }
 
-	public void setCreatedAt(LocalDateTime createdAt){
-		this.createdAt = createdAt;
-	}
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
-	// Updated At
-	public LocalDateTime getUpdatedAt(){
-		return updatedAt;
-	}
+    // Created At
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setUpdatedAt(LocalDateTime updatedAt){
-		this.updatedAt = updatedAt;
-	} 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    // Updated At
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
 }

@@ -5,9 +5,9 @@
  * Created on: 05-14-23
  *
  * Description: A REST Controller for handling Retweet-related operations in the
- * 						  Tweelon Application. This class maps endpoints for creating,
- * 						  deleting, and fetching retweets.
- *	
+ *              Tweelon Application. This class maps endpoints for creating,
+ *              deleting, and fetching retweets.
+ *
  **/
 
 package com.tweelon.controller;
@@ -28,38 +28,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/retweet")
 public class RetweetController {
 
-	@Autowired
-	private RetweetService retweetService;
+    @Autowired
+    private RetweetService retweetService;
 
-	// Create a retweet
-	@PostMapping("/{userId}/{tweetId}")
-	public Retweet createRetweet(@PathVariable Long userId, @PathVariable Long tweetId) {
-		return retweetService.createRetweet(userId, tweetId); 
-	}
+    // Create a retweet
+    @PostMapping("/{userId}/{tweetId}")
+    public Retweet createRetweet(@PathVariable Long userId, @PathVariable Long tweetId) {
+        return retweetService.createRetweet(userId, tweetId);
+    }
 
-	// Delete a retweet
-	@DeleteMapping("/{retweetId}")
-	public void deleteRetweet(@PathVariable Long retweetId){
-		retweetService.deleteRetweet(retweetId);
-	}
+    // Delete a retweet
+    @DeleteMapping("/{retweetId}")
+    public void deleteRetweet(@PathVariable Long retweetId) {
+        retweetService.deleteRetweet(retweetId);
+    }
 
-	// Fetch all retweets
-	@GetMapping("/{tweetId}")
-	public List<Retweet> getAllRetweets(){
-		return retweetService.getAllRetweets();
-	}
+    // Fetch all retweets
+    @GetMapping("/{tweetId}")
+    public List<Retweet> getAllRetweets() {
+        return retweetService.getAllRetweets();
+    }
 
-	// Fetch all retweet by user id
-	@GetMapping("/retweets/user/{userId}")
-	public List<Retweet> getRetweetsByUserId(@PathVariable Long userId){
-		return retweetService.getRetweetsByUserId(userId);
-	}
+    // Fetch all retweet by user id
+    @GetMapping("/retweets/user/{userId}")
+    public List<Retweet> getRetweetsByUserId(@PathVariable Long userId) {
+        return retweetService.getRetweetsByUserId(userId);
+    }
 
-	// Fetch all retweet by tweet id
-	@GetMapping("/retweets/tweet/{tweetId}")
-	public List<Retweet> getRetweetsByTweetId(@PathVariable Long tweetId){
-		return retweetService.getRetweetsByUserId(tweetId);
-	}
+    // Fetch all retweet by tweet id
+    @GetMapping("/retweets/tweet/{tweetId}")
+    public List<Retweet> getRetweetsByTweetId(@PathVariable Long tweetId) {
+        return retweetService.getRetweetsByUserId(tweetId);
+    }
 
 }
 

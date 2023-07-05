@@ -30,181 +30,181 @@ import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
-    "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
 })
 public class RetweetControllerTest {
 
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-	@MockBean
-	private RetweetService retweetService;
+    @MockBean
+    private RetweetService retweetService;
 
-	// Create retweet
-	@Test
-	public void testCreateRetweet() throws Exception {
+    // Create retweet
+    @Test
+    public void testCreateRetweet() throws Exception {
 
-		User user = new User();
-		user.setId(1L);
-		user.setUsername("testuser");
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("testuser");
 
-		Tweet tweet = new Tweet();
-		tweet.setId(1L);
-		tweet.setUser(user);
-		tweet.setContent("ReTweet 1");
+        Tweet tweet = new Tweet();
+        tweet.setId(1L);
+        tweet.setUser(user);
+        tweet.setContent("ReTweet 1");
 
-		Retweet retweet = new Retweet();
-		retweet.setId(1L);
-		retweet.setTweetId(tweet);
-		retweet.setUserId(user);
-		
-		when(retweetService.createRetweet(any(Long.class), any(Long.class))).thenReturn(retweet);
+        Retweet retweet = new Retweet();
+        retweet.setId(1L);
+        retweet.setTweetId(tweet);
+        retweet.setUserId(user);
 
-		mockMvc.perform(post("/api/v1/retweet/{userId}/{tweetId}", 1L, 1L)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(new ObjectMapper().writeValueAsString(retweet)))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.id", is(1)));
+        when(retweetService.createRetweet(any(Long.class), any(Long.class))).thenReturn(retweet);
 
-		verify(retweetService, times(1)).createRetweet(any(Long.class), any(Long.class));
-	}
+        mockMvc.perform(post("/api/v1/retweet/{userId}/{tweetId}", 1L, 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(retweet)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)));
 
-	// Delete retweet
-	@Test
-	void testDeleteRetweet() throws Exception{
-		Long retweetId = 1L;
-		doNothing().when(retweetService).deleteRetweet(retweetId);
+        verify(retweetService, times(1)).createRetweet(any(Long.class), any(Long.class));
+    }
 
-    mockMvc.perform(delete("/api/v1/retweet/{retweetId}", retweetId)
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+    // Delete retweet
+    @Test
+    void testDeleteRetweet() throws Exception {
+        Long retweetId = 1L;
+        doNothing().when(retweetService).deleteRetweet(retweetId);
 
-    verify(retweetService, times(1)).deleteRetweet(retweetId);
-	}
-	
-	// Get all retweets
-	@Test
-	public void testGetAllRetweets() throws Exception {
-		User user1 = new User();
-		user1.setUsername("testuser1");
+        mockMvc.perform(delete("/api/v1/retweet/{retweetId}", retweetId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
-		Tweet tweet1 = new Tweet();
-		tweet1.setId(1L);
-		tweet1.setUser(user1);
-		tweet1.setContent("tweet 1");
+        verify(retweetService, times(1)).deleteRetweet(retweetId);
+    }
 
-		Retweet retweet1 = new Retweet();
-		retweet1.setId(1L);
-		retweet1.setUserId(user1);
-		retweet1.setTweetId(tweet1);
+    // Get all retweets
+    @Test
+    public void testGetAllRetweets() throws Exception {
+        User user1 = new User();
+        user1.setUsername("testuser1");
 
-		User user2 = new User();
-		user2.setUsername("testuser1");
+        Tweet tweet1 = new Tweet();
+        tweet1.setId(1L);
+        tweet1.setUser(user1);
+        tweet1.setContent("tweet 1");
 
-		Tweet tweet2 = new Tweet();
-		tweet2.setId(2L);
-		tweet2.setUser(user1);
-		tweet2.setContent("tweet 2");
+        Retweet retweet1 = new Retweet();
+        retweet1.setId(1L);
+        retweet1.setUserId(user1);
+        retweet1.setTweetId(tweet1);
 
-		Retweet retweet2 = new Retweet();
-		retweet2.setId(2L);
-		retweet2.setUserId(user2);
-		retweet2.setTweetId(tweet2);
+        User user2 = new User();
+        user2.setUsername("testuser1");
 
-		List<Retweet> retweetList = Arrays.asList(retweet1, retweet2);
-		when(retweetService.getAllRetweets()).thenReturn(retweetList);
+        Tweet tweet2 = new Tweet();
+        tweet2.setId(2L);
+        tweet2.setUser(user1);
+        tweet2.setContent("tweet 2");
 
-		mockMvc.perform(get("/api/v1/retweet/retweets")
-			.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$", hasSize(2)))
-		  .andExpect(jsonPath("$[0].id", is(1)))
-			.andExpect(jsonPath("$[1].id", is(2)));
+        Retweet retweet2 = new Retweet();
+        retweet2.setId(2L);
+        retweet2.setUserId(user2);
+        retweet2.setTweetId(tweet2);
 
-		verify(retweetService, times(1)).getAllRetweets();
-	}
+        List<Retweet> retweetList = Arrays.asList(retweet1, retweet2);
+        when(retweetService.getAllRetweets()).thenReturn(retweetList);
 
-	// Get all retweet by user id
-	@Test
-	public void testGetTweetByUserId() throws Exception{
-		User user = new User();
-		user.setId(1L);
-		user.setUsername("testuser1");
+        mockMvc.perform(get("/api/v1/retweet/retweets")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[1].id", is(2)));
 
-		Tweet tweet1 = new Tweet();
-		tweet1.setId(1L);
-		tweet1.setUser(user);
-		tweet1.setContent("tweet 1");
+        verify(retweetService, times(1)).getAllRetweets();
+    }
 
-		Retweet retweet1 = new Retweet();
-		retweet1.setId(1L);
-		retweet1.setUserId(user);
-		retweet1.setTweetId(tweet1);
-	
-		Tweet tweet2 = new Tweet();
-		tweet2.setId(2L);
-		tweet2.setUser(user);
-		tweet2.setContent("tweet 2");
+    // Get all retweet by user id
+    @Test
+    public void testGetTweetByUserId() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("testuser1");
 
-		Retweet retweet2 = new Retweet();
-		retweet2.setId(2L);
-		retweet2.setUserId(user);
-		retweet2.setTweetId(tweet2);
+        Tweet tweet1 = new Tweet();
+        tweet1.setId(1L);
+        tweet1.setUser(user);
+        tweet1.setContent("tweet 1");
 
-		List<Retweet> retweets = Arrays.asList(retweet1, retweet2);
+        Retweet retweet1 = new Retweet();
+        retweet1.setId(1L);
+        retweet1.setUserId(user);
+        retweet1.setTweetId(tweet1);
 
-		when(retweetService.getRetweetsByUserId(1L)).thenReturn(retweets);
+        Tweet tweet2 = new Tweet();
+        tweet2.setId(2L);
+        tweet2.setUser(user);
+        tweet2.setContent("tweet 2");
 
-		mockMvc.perform(get("/api/v1/retweet/retweets/user/1")
-			.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$", hasSize(2)))
-			.andExpect(jsonPath("$[0].id", is(1)))
-			.andExpect(jsonPath("$[1].id", is(2)));
+        Retweet retweet2 = new Retweet();
+        retweet2.setId(2L);
+        retweet2.setUserId(user);
+        retweet2.setTweetId(tweet2);
 
-		verify(retweetService, times(1)).getRetweetsByUserId(1L);
-	}
+        List<Retweet> retweets = Arrays.asList(retweet1, retweet2);
 
-	// Get all retweet by tweet id
-	@Test
-	public void testGetTweetByTweetId() throws Exception{
-		User user = new User();
-		user.setId(1L);
-		user.setUsername("testuser1");
+        when(retweetService.getRetweetsByUserId(1L)).thenReturn(retweets);
 
-		Tweet tweet1 = new Tweet();
-		tweet1.setId(1L);
-		tweet1.setUser(user);
-		tweet1.setContent("tweet 1");
+        mockMvc.perform(get("/api/v1/retweet/retweets/user/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[1].id", is(2)));
 
-		Retweet retweet1 = new Retweet();
-		retweet1.setId(1L);
-		retweet1.setUserId(user);
-		retweet1.setTweetId(tweet1);
-	
-		Tweet tweet2 = new Tweet();
-		tweet2.setId(2L);
-		tweet2.setUser(user);
-		tweet2.setContent("tweet 2");
+        verify(retweetService, times(1)).getRetweetsByUserId(1L);
+    }
 
-		Retweet retweet2 = new Retweet();
-		retweet2.setId(2L);
-		retweet2.setUserId(user);
-		retweet2.setTweetId(tweet2);
+    // Get all retweet by tweet id
+    @Test
+    public void testGetTweetByTweetId() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("testuser1");
 
-		List<Retweet> retweets = Arrays.asList(retweet1, retweet2);
+        Tweet tweet1 = new Tweet();
+        tweet1.setId(1L);
+        tweet1.setUser(user);
+        tweet1.setContent("tweet 1");
 
-		when(retweetService.getRetweetsByUserId(1L)).thenReturn(retweets);
+        Retweet retweet1 = new Retweet();
+        retweet1.setId(1L);
+        retweet1.setUserId(user);
+        retweet1.setTweetId(tweet1);
 
-		mockMvc.perform(get("/api/v1/retweet/retweets/tweet/1")
-			.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$", hasSize(2)))
-			.andExpect(jsonPath("$[0].id", is(1)))
-			.andExpect(jsonPath("$[1].id", is(2)));
+        Tweet tweet2 = new Tweet();
+        tweet2.setId(2L);
+        tweet2.setUser(user);
+        tweet2.setContent("tweet 2");
 
-		verify(retweetService, times(1)).getRetweetsByUserId(1L);
-	}
+        Retweet retweet2 = new Retweet();
+        retweet2.setId(2L);
+        retweet2.setUserId(user);
+        retweet2.setTweetId(tweet2);
+
+        List<Retweet> retweets = Arrays.asList(retweet1, retweet2);
+
+        when(retweetService.getRetweetsByUserId(1L)).thenReturn(retweets);
+
+        mockMvc.perform(get("/api/v1/retweet/retweets/tweet/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[1].id", is(2)));
+
+        verify(retweetService, times(1)).getRetweetsByUserId(1L);
+    }
 
 }

@@ -20,6 +20,6 @@ import org.springframework.stereotype.Repository;
 import com.tweelon.model.Tweet;
 
 @Repository
-public interface TweetRepository extends JpaRepository<Tweet, Long>{
-		List<Tweet> findByUserId(Long userId);
+public interface TweetRepository extends JpaRepository<Tweet, Long> {
+    List<Tweet> findByUserId(Long userId);
 }

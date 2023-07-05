@@ -24,71 +24,71 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LikeControllerTest {
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@MockBean
-	private LikeService likeService;
+    @MockBean
+    private LikeService likeService;
 
-	private Like like;
+    private Like like;
 
-	@BeforeEach
-	void setUp() {
-		like = new Like();
-		like.setId(1L);
-	}
+    @BeforeEach
+    void setUp() {
+        like = new Like();
+        like.setId(1L);
+    }
 
-	// Create like
-	@Test
-	void testLikeTweet() throws Exception {
-		given(likeService.likeTweet(any(Like.class), anyLong())).willReturn(like);
+    // Create like
+    @Test
+    void testLikeTweet() throws Exception {
+        given(likeService.likeTweet(any(Like.class), anyLong())).willReturn(like);
 
-		mockMvc.perform(post("/api/v1/like/{userId}/{likeId}", 1, 1)
-			.contentType(MediaType.APPLICATION_JSON)
-      .content(objectMapper.writeValueAsString(like)))
-      .andExpect(status().isOk());
-	}
+        mockMvc.perform(post("/api/v1/like/{userId}/{likeId}", 1, 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(like)))
+                .andExpect(status().isOk());
+    }
 
-	// Delete like
-	@Test
-	void likeUnlikeTweet() throws Exception {
-		mockMvc.perform(delete("/api/v1/like/{likeId}", 1))
-			.andExpect(status().isOk());
-	}
+    // Delete like
+    @Test
+    void likeUnlikeTweet() throws Exception {
+        mockMvc.perform(delete("/api/v1/like/{likeId}", 1))
+                .andExpect(status().isOk());
+    }
 
-	// Get likes by id
-	@Test
-  void testGetLikeById() throws Exception {
-		given(likeService.getLikeById(anyLong(), anyLong())).willReturn(like);
+    // Get likes by id
+    @Test
+    void testGetLikeById() throws Exception {
+        given(likeService.getLikeById(anyLong(), anyLong())).willReturn(like);
 
-		mockMvc.perform(get("/api/v1/like/likes/{likeId}/{userId}", 1, 1))
-      .andExpect(status().isOk());
-	}
+        mockMvc.perform(get("/api/v1/like/likes/{likeId}/{userId}", 1, 1))
+                .andExpect(status().isOk());
+    }
 
-	// Get all likes
- 	@Test
-	void testGetAllLikes() throws Exception {
-		List<Like> likes = Arrays.asList(like);
+    // Get all likes
+    @Test
+    void testGetAllLikes() throws Exception {
+        List<Like> likes = Arrays.asList(like);
 
-		given(likeService.getAllLikes()).willReturn(likes);
+        given(likeService.getAllLikes()).willReturn(likes);
 
-		mockMvc.perform(get("/api/v1/like/likes"))
-			.andExpect(status().isOk());
-	}
+        mockMvc.perform(get("/api/v1/like/likes"))
+                .andExpect(status().isOk());
+    }
 
-	// Get likes by user id
-	@Test
-	void testGetLikesByUserId() throws Exception {
-		List<Like> likes = Arrays.asList(like);
-		
-		given(likeService.getLikesByUserId(anyLong())).willReturn(likes);
+    // Get likes by user id
+    @Test
+    void testGetLikesByUserId() throws Exception {
+        List<Like> likes = Arrays.asList(like);
 
-		mockMvc.perform(get("/api/v1/like/likes/user/{userId}", 1))
-			.andExpect(status().isOk());
-	}
+        given(likeService.getLikesByUserId(anyLong())).willReturn(likes);
+
+        mockMvc.perform(get("/api/v1/like/likes/user/{userId}", 1))
+                .andExpect(status().isOk());
+    }
 }
 
 

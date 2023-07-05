@@ -17,11 +17,15 @@ import java.util.List;
 import com.tweelon.model.Retweet;
 
 public interface RetweetService {
-	
-	Retweet createRetweet(Long userId, Long tweetId); // Retweet a Tweet by its user ID and the associated tweet ID.
-	void deleteRetweet(Long retweetId); // Delete a Retweet by its retweet ID.
-	List<Retweet> getAllRetweets(); // Retrieve all Retweets in the system.
-	List<Retweet> getRetweetsByUserId(Long userId); // Retrieves a Retweet by its user ID.
-	List<Retweet> getRetweetsByTweetId(Long tweetId); // Retrieves a Retweet by its tweet ID.
-	
+
+    Retweet createRetweet(Long userId, Long tweetId); // Retweet a Tweet by its user ID and the associated tweet ID.
+
+    void deleteRetweet(Long retweetId); // Delete a Retweet by its retweet ID.
+
+    List<Retweet> getAllRetweets(); // Retrieve all Retweets in the system.
+
+    List<Retweet> getRetweetsByUserId(Long userId); // Retrieves a Retweet by its user ID.
+
+    List<Retweet> getRetweetsByTweetId(Long tweetId); // Retrieves a Retweet by its tweet ID.
+
 }

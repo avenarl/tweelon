@@ -18,11 +18,15 @@ import java.util.List;
 import com.tweelon.model.Like;
 
 public interface LikeService {
-	Like likeTweet(Like likeId, Long userId);
-	Like getLikeById(Long likeId, Long userId); // Retrievs a Like by its ID and the associated user ID.
-	void unlikeTweet(Long id); // Deletes a Like by its ID.
-	List<Like> getAllLikes(); // Retrieves all Likes in the system.
-	List<Like> getLikesByUserId(Long userId); // Retrieves all Likes associated with a specific user ID.
-	//
+    Like likeTweet(Like likeId, Long userId);
+
+    Like getLikeById(Long likeId, Long userId); // Retrievs a Like by its ID and the associated user ID.
+
+    void unlikeTweet(Long id); // Deletes a Like by its ID.
+
+    List<Like> getAllLikes(); // Retrieves all Likes in the system.
+
+    List<Like> getLikesByUserId(Long userId); // Retrieves all Likes associated with a specific user ID.
+    //
 }	
 

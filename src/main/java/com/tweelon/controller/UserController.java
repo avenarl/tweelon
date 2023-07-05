@@ -22,83 +22,83 @@ import com.tweelon.repository.UserRepository;
 import com.tweelon.service.UserService;
 
 @RestController
-@RequestMapping("/api/v1/user") 
+@RequestMapping("/api/v1/user")
 public class UserController {
 
-	@Autowired
-	public UserService userService; // Access methods from user service
-	
-	@Autowired
-	public UserRepository userRepository;
+    @Autowired
+    public UserService userService; // Access methods from user service
 
-	@Autowired
-	public PasswordEncoder passwordEncoder;
+    @Autowired
+    public UserRepository userRepository;
 
-	// Login
-	@PostMapping("/login")
-	public ResponseEntity<User> loginUser(@RequestBody User user){
+    @Autowired
+    public PasswordEncoder passwordEncoder;
 
-		Optional<User> usernameEntry = userRepository.findByUsername(user.getUsername());
+    // Login
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestBody User user) {
 
-		if(!usernameEntry.isPresent()){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect Username");
-		}
+        Optional<User> usernameEntry = userRepository.findByUsername(user.getUsername());
 
-		User existingUser = usernameEntry.get();
+        if (!usernameEntry.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect Username");
+        }
 
- 		if(!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect Password");
+        User existingUser = usernameEntry.get();
+
+        if (!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect Password");
+        }
+
+        return new ResponseEntity<>(existingUser, HttpStatus.OK);
     }
 
-		return new ResponseEntity<>(existingUser, HttpStatus.OK);
+    // Register
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
 
-	}
+        Optional<User> usernameEntry = userRepository.findByUsername(user.getUsername());
+        Optional<User> emailEntry = userRepository.findByEmail(user.getEmail());
 
-	// Register
-	@PostMapping("/register")
-	public ResponseEntity<User> registerUser(@RequestBody User user){
+        if (usernameEntry.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
 
-		Optional<User> usernameEntry = userRepository.findByUsername(user.getUsername());
-		Optional<User> emailEntry = userRepository.findByEmail(user.getEmail());
+        if (emailEntry.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+        }
 
-		if(usernameEntry.isPresent()){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
-		}
-		if(emailEntry.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
-		}
+        User newUser = userService.registerUser(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
 
-		User newUser = userService.registerUser(user);
-		return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-	}
+    // Fetch all users
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
-	// Fetch all users
-	@GetMapping("/users")
-	public List<User> getAllUsers(){
-		return userService.getAllUsers();
-	}	
+    // Fetch single user
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
 
-	// Fetch single user
-	@GetMapping("/{id}")
-	public User getUserById(@PathVariable Long id){
-		return userService.getUserById(id);
-	}
+    // Create user
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
 
-	// Create user
-	@PostMapping
-	public User createUser(@RequestBody User user){
-		return userService.createUser(user);
-	}
+    // Delete user
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+    }
 
-	// Delete user
-	@DeleteMapping("/{id}")
-	public void deleteUser(@PathVariable Long id){
-		userService.deleteUser(id);
-	}
-
-	// Update user
-	@PutMapping("/{id}")
-	public User updateUser(@RequestBody User user, @PathVariable Long id){
-		return userService.updateUser(user, id);
-	}
+    // Update user
+    @PutMapping("/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Long id) {
+        return userService.updateUser(user, id);
+    }
 }

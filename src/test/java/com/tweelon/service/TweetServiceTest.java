@@ -25,142 +25,145 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class TweetServiceTest {
 
-	@Mock
-	private TweetRepository tweetRepository;
+    @Mock
+    private TweetRepository tweetRepository;
 
-	@Mock
-	private UserService userService;
+    @Mock
+    private UserService userService;
 
-	@InjectMocks
-	private TweetServiceImpl tweetServiceImpl;
+    @InjectMocks
+    private TweetServiceImpl tweetServiceImpl;
 
-	// Create Tweet
-	@Test
-	public void testCreateTweet(){
-		User user = new User();
-    user.setId(1L);
- 
-    Tweet tweetToCreate = new Tweet();
-    tweetToCreate.setContent("Created tweet.");
-    tweetToCreate.setUser(user);
+    // Create Tweet
+    @Test
+    public void testCreateTweet() {
+        User user = new User();
+        user.setId(1L);
 
-    given(userService.getUserById(1L)).willReturn(user);
-    given(tweetRepository.save(any(Tweet.class))).willAnswer(invocation -> {
-        Tweet tweet = invocation.getArgument(0);
-        tweet.setId(1L);
-        return tweet;
-    });
+        Tweet tweetToCreate = new Tweet();
+        tweetToCreate.setContent("Created tweet.");
+        tweetToCreate.setUser(user);
 
-    Tweet savedTweet = tweetServiceImpl.createTweet(tweetToCreate, 1L);
-    assertNotNull(savedTweet);
-    assertEquals(1L, savedTweet.getId());
-    assertEquals("Created tweet.", savedTweet.getContent());
-    assertEquals(user, savedTweet.getUser());
+        given(userService.getUserById(1L)).willReturn(user);
+        given(tweetRepository.save(any(Tweet.class))).willAnswer(invocation -> {
+            Tweet tweet = invocation.getArgument(0);
+            tweet.setId(1L);
+            return tweet;
+        });
 
-    // Verify
-    verify(tweetRepository).save(any(Tweet.class));
-	}
+        Tweet savedTweet = tweetServiceImpl.createTweet(tweetToCreate, 1L);
+        assertNotNull(savedTweet);
+        assertEquals(1L, savedTweet.getId());
+        assertEquals("Created tweet.", savedTweet.getContent());
+        assertEquals(user, savedTweet.getUser());
 
-	// Get Tweet by ID
-	@Test
-	public void testGetTweetById(){
-		Tweet tweet = new Tweet(); // Creates new object tweet
-		tweet.setId(1L); // 1L Id of tweet
-		tweet.setContent("My first tweet as a tester."); // Content of tweet
-		given(tweetRepository.findById(1L)).willReturn(Optional.of(tweet)); // find and return optional
-		Tweet returnedTweet = tweetServiceImpl.getTweetById(1L); // calls the method in service impl and store to a variable of tweet object
-		assertEquals(returnedTweet.getId(), 1L);	// validation
-	}
+        // Verify
+        verify(tweetRepository).save(any(Tweet.class));
+    }
 
-	// Update Tweet
-	@Test
-	void testUpdateTweet(){
-		// Create first a User
-		User user = new User();
-		user.setId(1L);
-		given(userService.getUserById(1L)).willReturn(user);
+    // Get Tweet by ID
+    @Test
+    public void testGetTweetById() {
+        Tweet tweet = new Tweet(); // Creates new object tweet
+        tweet.setId(1L); // 1L Id of tweet
+        tweet.setContent("My first tweet as a tester."); // Content of tweet
+        given(tweetRepository.findById(1L)).willReturn(Optional.of(tweet)); // find and return optional
+        Tweet returnedTweet = tweetServiceImpl.getTweetById(1L); // calls the method in service impl and store to a variable of tweet object
+        assertEquals(returnedTweet.getId(), 1L);    // validation
+    }
 
-    // Given
-    Tweet existingTweet = new Tweet();
-    existingTweet.setId(1L);
-    existingTweet.setContent("My first tweet as a tester.");
-		existingTweet.setUser(user);
+    // Update Tweet
+    @Test
+    void testUpdateTweet() {
+        // Create first a User
+        User user = new User();
+        user.setId(1L);
+        given(userService.getUserById(1L)).willReturn(user);
 
-    Tweet updatedTweet = new Tweet();
-		updatedTweet.setId(1L);
-    updatedTweet.setContent("My edited tweet as a tester.");
+        // Given
+        Tweet existingTweet = new Tweet();
+        existingTweet.setId(1L);
+        existingTweet.setContent("My first tweet as a tester.");
+        existingTweet.setUser(user);
 
-    given(tweetRepository.findById(1L)).willReturn(Optional.of(existingTweet));
-    given(tweetRepository.save(any(Tweet.class))).willAnswer(invocation -> invocation.getArgument(0));
+        Tweet updatedTweet = new Tweet();
+        updatedTweet.setId(1L);
+        updatedTweet.setContent("My edited tweet as a tester.");
 
-    // When
-    Tweet savedTweet = tweetServiceImpl.updateTweet(updatedTweet, 1L);
+        given(tweetRepository.findById(1L)).willReturn(Optional.of(existingTweet));
+        given(tweetRepository.save(any(Tweet.class))).willAnswer(invocation -> invocation.getArgument(0));
 
-    // Then
-    assertEquals(savedTweet.getId(), updatedTweet.getId());
-    assertEquals(savedTweet.getContent(), updatedTweet.getContent());
+        // When
+        Tweet savedTweet = tweetServiceImpl.updateTweet(updatedTweet, 1L);
 
-    // Verify
-    verify(tweetRepository).findById(1L);
-    verify(tweetRepository).save(any(Tweet.class));
-	}
-	// Delete Tweet
-	@Test
-	void testDeleteTweet(){
-		Long tweetId = 1L;
-		tweetRepository.deleteById(tweetId);
-		verify(tweetRepository).deleteById(tweetId);
-	}
-	// Get All Tweets
-	@Test
-	void testGetAllTweets(){
-		// prepare sample data
-		List<Tweet> tweetList = new ArrayList<>();
-		User user1 = new User();
-		user1.setId(1L);
-		Tweet tweet1 = new Tweet();
-		tweet1.setUser(user1);
-		tweet1.setContent("My tweet.");
-		tweetList.add(tweet1);
+        // Then
+        assertEquals(savedTweet.getId(), updatedTweet.getId());
+        assertEquals(savedTweet.getContent(), updatedTweet.getContent());
 
-		User user2 = new User();
-		user2.setId(2L);
-		Tweet tweet2 = new Tweet();
-		tweet2.setUser(user2);
-		tweet2.setContent("The other tweet.");
-		tweetList.add(tweet2);
+        // Verify
+        verify(tweetRepository).findById(1L);
+        verify(tweetRepository).save(any(Tweet.class));
+    }
 
-		given(tweetRepository.findAll()).willReturn(tweetList);
+    // Delete Tweet
+    @Test
+    void testDeleteTweet() {
+        Long tweetId = 1L;
+        tweetRepository.deleteById(tweetId);
+        verify(tweetRepository).deleteById(tweetId);
+    }
 
-		List<Tweet> returnedTweetList = tweetServiceImpl.getAllTweets();
+    // Get All Tweets
+    @Test
+    void testGetAllTweets() {
+        // prepare sample data
+        List<Tweet> tweetList = new ArrayList<>();
+        User user1 = new User();
+        user1.setId(1L);
+        Tweet tweet1 = new Tweet();
+        tweet1.setUser(user1);
+        tweet1.setContent("My tweet.");
+        tweetList.add(tweet1);
 
-		assertEquals(returnedTweetList.size(), 2);
-		assertEquals(returnedTweetList.get(0).getContent(), "My tweet.");
-		assertEquals(returnedTweetList.get(1).getContent(), "The other tweet.");
+        User user2 = new User();
+        user2.setId(2L);
+        Tweet tweet2 = new Tweet();
+        tweet2.setUser(user2);
+        tweet2.setContent("The other tweet.");
+        tweetList.add(tweet2);
 
-		verify(tweetRepository).findAll();
-	}
-	// Get Tweet by User ID
-	@Test	
-	void testGetTweetByUserId(){
-		List<Tweet> tweetList = new ArrayList<>(); 
+        given(tweetRepository.findAll()).willReturn(tweetList);
 
-		User user1 = new User();
-		user1.setId(1L);
+        List<Tweet> returnedTweetList = tweetServiceImpl.getAllTweets();
 
-		Tweet tweet1 = new Tweet();
-		tweet1.setUser(user1);
-		tweet1.setContent("This tweet.");
-		tweetList.add(tweet1);
+        assertEquals(returnedTweetList.size(), 2);
+        assertEquals(returnedTweetList.get(0).getContent(), "My tweet.");
+        assertEquals(returnedTweetList.get(1).getContent(), "The other tweet.");
 
-		given(tweetRepository.findByUserId(1L)).willReturn(tweetList);
+        verify(tweetRepository).findAll();
+    }
 
-		List<Tweet> returnedTweet = tweetServiceImpl.getTweetByUserId(1L);
-		assertNotNull(returnedTweet);
-		assertEquals(1, returnedTweet.size());
-		assertEquals(tweet1, returnedTweet.get(0));
+    // Get Tweet by User ID
+    @Test
+    void testGetTweetByUserId() {
+        List<Tweet> tweetList = new ArrayList<>();
 
-		verify(tweetRepository).findByUserId(1L);
-	}
+        User user1 = new User();
+        user1.setId(1L);
+
+        Tweet tweet1 = new Tweet();
+        tweet1.setUser(user1);
+        tweet1.setContent("This tweet.");
+        tweetList.add(tweet1);
+
+        given(tweetRepository.findByUserId(1L)).willReturn(tweetList);
+
+        List<Tweet> returnedTweet = tweetServiceImpl.getTweetByUserId(1L);
+        assertNotNull(returnedTweet);
+        assertEquals(1, returnedTweet.size());
+        assertEquals(tweet1, returnedTweet.get(0));
+
+        verify(tweetRepository).findByUserId(1L);
+    }
 }
 

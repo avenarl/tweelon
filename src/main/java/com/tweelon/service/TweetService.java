@@ -22,11 +22,16 @@ import com.tweelon.model.Tweet;
 @Service
 public interface TweetService {
 
-	Tweet createTweet(Tweet tweet, Long userId); // Create a Tweet by its user ID.
-	Tweet getTweetById(Long id); // Retrieve a Tweet by its ID.
-	Tweet updateTweet(Tweet tweet, Long userId); // Edit a Tweet by its user ID.
-	void deleteTweet(Long id); // Delete a Tweet by its ID.
-	List<Tweet> getAllTweets(); // Retrieve all Tweets in the system.
-	List<Tweet> getTweetByUserId(Long userId); // Retrieve a Tweet by its user ID.
-	
+    Tweet createTweet(Tweet tweet, Long userId); // Create a Tweet by its user ID.
+
+    Tweet getTweetById(Long id); // Retrieve a Tweet by its ID.
+
+    Tweet updateTweet(Tweet tweet, Long userId); // Edit a Tweet by its user ID.
+
+    void deleteTweet(Long id); // Delete a Tweet by its ID.
+
+    List<Tweet> getAllTweets(); // Retrieve all Tweets in the system.
+
+    List<Tweet> getTweetByUserId(Long userId); // Retrieve a Tweet by its user ID.
+
 }	

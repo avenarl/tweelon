@@ -21,12 +21,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.tweelon.model.Like;
 
 @Repository
-public interface LikeRepository extends JpaRepository<Like, Long>{
+public interface LikeRepository extends JpaRepository<Like, Long> {
 
-	// SELECT * FROM likes WHERE like_id = ?1 and user_id = ?2;
-	Optional<Like> findLikeByIdAndUserId(Long likeId, Long userId);
+    // SELECT * FROM likes WHERE like_id = ?1 and user_id = ?2;
+    Optional<Like> findLikeByIdAndUserId(Long likeId, Long userId);
 
-	// SELECT * FROM likes WHERE user_id = ?1;
-	List <Like> findLikesByUserId(Long userId);
+    // SELECT * FROM likes WHERE user_id = ?1;
+    List<Like> findLikesByUserId(Long userId);
 
 }

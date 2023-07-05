@@ -11,13 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EntityScan("com.tweelon.model")
 public class TweelonApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TweelonApplication.class, args);
-	}
+ public static void main(String[] args) {
+  SpringApplication.run(TweelonApplication.class, args);
+ }
 
-	// Implementation of password hashing
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+// Implementation of password hashing
+@Bean
+public BCryptPasswordEncoder bCryptPasswordEncoder() {
+ return new BCryptPasswordEncoder();
+ }
 }

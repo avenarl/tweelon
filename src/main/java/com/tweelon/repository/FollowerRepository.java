@@ -22,15 +22,15 @@ import com.tweelon.model.Follower;
 
 
 @Repository
-public interface FollowerRepository extends JpaRepository<Follower, Long>{ // id = Long
-  
-	// SELECT * FROM followers WHERE user_id = ?1 AND following_id = ?2;
-	Optional<Follower> findByUserIdAndFollowingId(Long userId, Long followingId);
+public interface FollowerRepository extends JpaRepository<Follower, Long> { // id = Long
 
-	// SELECT * FROM followers WHERE user_id = ?1;
-	List<Follower> findByUserId(Long userId);
+    // SELECT * FROM followers WHERE user_id = ?1 AND following_id = ?2;
+    Optional<Follower> findByUserIdAndFollowingId(Long userId, Long followingId);
 
-	// SELCT * FROM followers WHERE user_id = ?1;
-	List<Follower> findByFollowingId(Long userId);
+    // SELECT * FROM followers WHERE user_id = ?1;
+    List<Follower> findByUserId(Long userId);
+
+    // SELCT * FROM followers WHERE user_id = ?1;
+    List<Follower> findByFollowingId(Long userId);
 
 }
